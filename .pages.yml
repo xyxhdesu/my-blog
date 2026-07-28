@@ -1,0 +1,35 @@
+media:
+  input: static/images
+  output: /images
+
+content:
+  - name: posts
+    label: 文章
+    type: collection
+    path: content/posts
+    format: toml-frontmatter
+    filename: "{year}-{month}-{day}-{primary}.md"
+    view:
+      fields: [title, date, draft]
+      primary: title
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 发布时间
+        type: date
+        options:
+          time: true
+      - name: draft
+        label: 保存为草稿
+        type: boolean
+        default: false
+      - name: body
+        label: 正文
+        type: rich-text
