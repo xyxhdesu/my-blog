@@ -1,4 +1,4 @@
-baseURL = "https://xingyexiaohua.xyz/"
+baseURL = "https://blog.xingyexiaohua.xyz/"
 locale = "zh-cn"
 title = "我的博客"
 theme = "ananke"
