@@ -62,7 +62,7 @@ function Set-Busy([bool]$Busy, [string]$ActionName) {
 function Refresh-RepositoryState {
     try {
         Push-Location $script:RepoRoot
-        $summary = & git -c core.quotepath=false status --short --branch 2>&1
+        $summary = @(& git -c core.quotepath=false status --short --branch 2>&1)
         if ($LASTEXITCODE -ne 0) { throw ($summary -join " ") }
         if ($summary.Count -eq 0) {
             $script:RepoState.Text = "main"
@@ -284,8 +284,12 @@ function Toggle-Preview {
 $script:Form = New-Object System.Windows.Forms.Form
 $script:Form.Text = S "appTitle"
 $script:Form.StartPosition = "CenterScreen"
-$script:Form.Size = New-Object Drawing.Size(960, 650)
-$script:Form.MinimumSize = New-Object Drawing.Size(820, 580)
+$script:Form.AutoScaleMode = [Windows.Forms.AutoScaleMode]::None
+$workArea = [Windows.Forms.Screen]::PrimaryScreen.WorkingArea
+$windowWidth = [Math]::Min(960, [Math]::Max(720, $workArea.Width - 32))
+$windowHeight = [Math]::Min(650, [Math]::Max(480, $workArea.Height - 32))
+$script:Form.Size = New-Object Drawing.Size($windowWidth, $windowHeight)
+$script:Form.MinimumSize = New-Object Drawing.Size(720, 480)
 $script:Form.BackColor = [Drawing.Color]::White
 $script:Form.Font = New-Object Drawing.Font("Microsoft YaHei UI", 10)
 $script:Form.Icon = [Drawing.SystemIcons]::Application
@@ -315,6 +319,7 @@ $script:Sidebar = New-Object Windows.Forms.Panel
 $script:Sidebar.Dock = "Left"
 $script:Sidebar.Width = 220
 $script:Sidebar.BackColor = [Drawing.Color]::FromArgb(247, 249, 251)
+$script:Sidebar.AutoScroll = $true
 $script:Form.Controls.Add($script:Sidebar)
 
 $script:ToolTip = New-Object Windows.Forms.ToolTip
