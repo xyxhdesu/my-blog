@@ -6,7 +6,7 @@
     <title>{{ if .IsHome }}欢迎来到{{ .Site.Title }}喵～ ヾ(≧▽≦*)o{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <link rel="icon" type="image/png" href="{{ "images/OIP.png" | relURL }}">
-    <link rel="stylesheet" href="{{ "css/argon.css" | relURL }}?v=20260728-4">
+    <link rel="stylesheet" href="{{ "css/argon.css" | relURL }}?v=20260729-1">
     {{ with .OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $.Site.Title }}">{{ end }}
   </head>
   <body class="page-kind-{{ .Kind }}">

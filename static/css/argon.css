@@ -120,6 +120,8 @@ button { color: inherit; font: inherit; }
 .article-content code { font-size: .88em; }
 .article-end { margin-top: 50px; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
 .comments-panel { margin-top: 36px; padding-top: 30px; border-top: 1px solid var(--line); }
+.comments-panel .giscus, .comments-panel .giscus-frame { width: 100%; }
+.comments-panel .giscus-frame { display: block; border: 0; }
 .toc-panel { position: sticky; top: 92px; padding: 20px; font-size: 13px; }
 .toc-panel ul { margin: 0; padding-left: 18px; }
 .toc-panel a { color: var(--muted); }
