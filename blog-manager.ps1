@@ -190,7 +190,7 @@ function New-Post {
     if ([string]::IsNullOrWhiteSpace($title)) { $title = $newSlug }
     $safeTitle = $title.Replace("'", "''")
     $date = Get-Date -Format "yyyy-MM-dd'T'HH:mm:ss"
-    $content = "+++`ntitle = '$safeTitle'`ndate = '$date'`ndraft = true`n+++`n`n"
+    $content = "+++`ntitle = '$safeTitle'`ndate = '$date'`ndraft = true`ncategories = []`ntags = []`n+++`n`n"
     $utf8 = New-Object System.Text.UTF8Encoding($false)
     [IO.File]::WriteAllText($path, $content, $utf8)
     Write-Ok "Created content/posts/$name as a draft."

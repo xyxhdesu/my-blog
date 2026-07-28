@@ -2,7 +2,7 @@
   <section class="article-hero" style="background-image: url('{{ with .Params.featured_image }}{{ . | relURL }}{{ else }}{{ .Site.Params.hero_image | relURL }}{{ end }}')">
     <div class="hero-shade"></div>
     <div class="article-hero-content">
-      <div class="tag-row">{{ range .Params.categories }}<span>{{ . }}</span>{{ end }}</div>
+      <div class="tag-row">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</div>
       <h1>{{ .Title }}</h1>
       <div class="article-meta"><time>{{ .Date.Format "2006-01-02" }}</time><span>{{ .WordCount }} 字</span><span>{{ .ReadingTime }} 分钟阅读</span></div>
     </div>
@@ -11,7 +11,7 @@
     <article class="article-panel">
       <div class="article-content">{{ .Content }}</div>
       <footer class="article-end">
-        <div class="tag-row">{{ range .Params.tags }}<a href="{{ (printf "tags/%s/" (. | urlize)) | relURL }}">#{{ . }}</a>{{ end }}</div>
+        <div class="tag-row">{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}</div>
         <span>— END —</span>
       </footer>
       {{ partial "giscus.html" . }}

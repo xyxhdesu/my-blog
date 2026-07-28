@@ -5,6 +5,10 @@ timeZone = "Asia/Shanghai"
 title = "小花の博客"
 theme = "ananke"
 
+[taxonomies]
+  category = "categories"
+  tag = "tags"
+
 [languages]
   [languages.zh-cn]
     label = "简体中文"

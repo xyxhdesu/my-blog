@@ -3,7 +3,8 @@ param(
     [string]$ScreenshotPath = "",
     [switch]$SmokeTest,
     [ValidateSet("status", "build")]
-    [string]$SmokeAction = "status"
+    [string]$SmokeAction = "status",
+    [switch]$LongLogTest
 )
 
 Set-StrictMode -Version 2.0
@@ -349,7 +350,7 @@ $stateCaption = New-Object Windows.Forms.Label
 $stateCaption.Text = S "currentState"
 $stateCaption.AutoSize = $true
 $stateCaption.ForeColor = [Drawing.Color]::DimGray
-$stateCaption.Location = New-Object Drawing.Point(27, 20)
+$stateCaption.Location = New-Object Drawing.Point(0, 0)
 $contentPanel.Controls.Add($stateCaption)
 
 $script:StateValue = New-Object Windows.Forms.Label
@@ -357,7 +358,7 @@ $script:StateValue.Text = S "ready"
 $script:StateValue.AutoSize = $true
 $script:StateValue.Font = New-Object Drawing.Font("Microsoft YaHei UI", 12, [Drawing.FontStyle]::Bold)
 $script:StateValue.ForeColor = [Drawing.Color]::FromArgb(31, 41, 55)
-$script:StateValue.Location = New-Object Drawing.Point(26, 45)
+$script:StateValue.Location = New-Object Drawing.Point(0, 24)
 $contentPanel.Controls.Add($script:StateValue)
 
 $script:RepoState = New-Object Windows.Forms.Label
@@ -366,18 +367,17 @@ $script:RepoState.AutoEllipsis = $true
 $script:RepoState.Anchor = "Top,Left,Right"
 $script:RepoState.ForeColor = [Drawing.Color]::FromArgb(75, 85, 99)
 $script:RepoState.Font = New-Object Drawing.Font("Consolas", 9)
-$script:RepoState.SetBounds(28, 78, 640, 50)
+$script:RepoState.SetBounds(0, 54, 640, 50)
 $contentPanel.Controls.Add($script:RepoState)
 
 $script:Progress = New-Object Windows.Forms.ProgressBar
-$script:Progress.Anchor = "Top,Left,Right"
-$script:Progress.SetBounds(28, 131, 658, 4)
+$script:Progress.Dock = "Fill"
 $contentPanel.Controls.Add($script:Progress)
 
 $logCaption = New-Object Windows.Forms.Label
 $logCaption.Text = S "activityLog"
 $logCaption.AutoSize = $true
-$logCaption.Location = New-Object Drawing.Point(27, 153)
+$logCaption.TextAlign = [Drawing.ContentAlignment]::BottomLeft
 $contentPanel.Controls.Add($logCaption)
 
 $script:LogBox = New-Object Windows.Forms.RichTextBox
@@ -386,9 +386,32 @@ $script:LogBox.BackColor = [Drawing.Color]::FromArgb(250, 251, 252)
 $script:LogBox.ForeColor = [Drawing.Color]::FromArgb(31, 41, 55)
 $script:LogBox.BorderStyle = "FixedSingle"
 $script:LogBox.Font = New-Object Drawing.Font("Consolas", 9.5)
-$script:LogBox.Anchor = "Top,Bottom,Left,Right"
-$script:LogBox.SetBounds(28, 181, 658, 330)
+$script:LogBox.ScrollBars = "Both"
+$script:LogBox.WordWrap = $false
+$script:LogBox.Dock = "Fill"
 $contentPanel.Controls.Add($script:LogBox)
+
+$contentPanel.Controls.Clear()
+$contentGrid = New-Object Windows.Forms.TableLayoutPanel
+$contentGrid.Dock = "Fill"
+$contentGrid.RowCount = 4
+$contentGrid.ColumnCount = 1
+[void]$contentGrid.RowStyles.Add((New-Object Windows.Forms.RowStyle("Absolute", 112)))
+[void]$contentGrid.RowStyles.Add((New-Object Windows.Forms.RowStyle("Absolute", 8)))
+[void]$contentGrid.RowStyles.Add((New-Object Windows.Forms.RowStyle("Absolute", 30)))
+[void]$contentGrid.RowStyles.Add((New-Object Windows.Forms.RowStyle("Percent", 100)))
+[void]$contentGrid.ColumnStyles.Add((New-Object Windows.Forms.ColumnStyle("Percent", 100)))
+
+$infoPanel = New-Object Windows.Forms.Panel
+$infoPanel.Dock = "Fill"
+$infoPanel.Controls.Add($stateCaption)
+$infoPanel.Controls.Add($script:StateValue)
+$infoPanel.Controls.Add($script:RepoState)
+$contentGrid.Controls.Add($infoPanel, 0, 0)
+$contentGrid.Controls.Add($script:Progress, 0, 1)
+$contentGrid.Controls.Add($logCaption, 0, 2)
+$contentGrid.Controls.Add($script:LogBox, 0, 3)
+$contentPanel.Controls.Add($contentGrid)
 
 $script:Form.Controls.Clear()
 $rootLayout = New-Object Windows.Forms.TableLayoutPanel
@@ -475,6 +498,9 @@ if (-not [string]::IsNullOrWhiteSpace($ScreenshotPath)) {
         $script:ScreenshotTimer.Add_Tick({
             if ($SmokeTest -and $script:IsBusy) { return }
             $script:ScreenshotTimer.Stop()
+            if ($LongLogTest) {
+                1..80 | ForEach-Object { Append-Log ("scroll test line " + $_) }
+            }
             $bitmap = New-Object Drawing.Bitmap($script:Form.ClientSize.Width, $script:Form.ClientSize.Height)
             $script:Form.DrawToBitmap($bitmap, $script:Form.ClientRectangle)
             $bitmap.Save($ScreenshotPath, [Drawing.Imaging.ImageFormat]::Png)

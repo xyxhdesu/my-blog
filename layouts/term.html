@@ -1,0 +1,25 @@
+{{ define "main" }}
+  {{ $isCategory := eq .Data.Plural "categories" }}
+  {{ $collectionTitle := cond $isCategory "分类" "标签" }}
+  <section class="subhero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div>
+      <p>{{ if $isCategory }}CATEGORY{{ else }}TAG{{ end }}</p>
+      <h1>{{ .Title }}</h1>
+      <span>{{ len .Pages }} 篇文章</span>
+    </div>
+  </section>
+  <div class="page-shell compact-shell">
+    <section class="content-column" aria-label="{{ .Title }}下的文章">
+      <div class="section-heading taxonomy-heading">
+        <div><span>{{ upper .Data.Plural }}</span><h2>{{ .Title }}</h2></div>
+        <a href="{{ (printf "%s/" .Data.Plural) | relURL }}">全部{{ $collectionTitle }}</a>
+      </div>
+      {{ range .Paginator.Pages }}{{ partial "post-card.html" . }}{{ else }}
+        <div class="empty-state">这个{{ $collectionTitle }}下还没有文章。</div>
+      {{ end }}
+      {{ template "_internal/pagination.html" . }}
+    </section>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}
