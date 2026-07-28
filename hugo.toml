@@ -12,7 +12,7 @@ theme = "ananke"
     weight = 1
 
 [params]
-  description = "记录技术、生活与沿途的灵感"
+  description = "于异世界一隅，记录未完待续的冒险。"
   author = "星野小花"
   hero_image = "/images/heroes/hero (2).webp"
   avatar = "/images/image.png"

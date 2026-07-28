@@ -54,7 +54,7 @@ button { color: inherit; font: inherit; }
 .hero-kicker, .subhero p { margin: 0 0 8px; font-size: 12px; font-weight: 700; letter-spacing: 2px; }
 .hero h1 { margin: 0; font-size: clamp(42px, 7vw, 76px); line-height: 1.15; letter-spacing: 0; text-shadow: 0 4px 30px rgba(0,0,0,.25); }
 .hero-content > p:not(.hero-kicker) { margin: 15px 0 0; font-size: 18px; }
-.hero-scroll { position: absolute; top: 190px; left: 50%; display: grid; width: 44px; height: 44px; place-items: center; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; font-size: 30px; transform: translateX(-50%); }
+.hero-scroll { display: grid; width: 44px; height: 44px; margin: 20px auto 0; padding-bottom: 7px; place-items: center; border: 1px solid rgba(255,255,255,.55); border-radius: 50%; font-size: 30px; line-height: 1; }
 
 .page-shell { width: min(1180px, calc(100% - 40px)); margin: -42px auto 80px; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 28px; align-items: start; }
 .compact-shell { margin-top: 42px; }
@@ -98,11 +98,11 @@ button { color: inherit; font: inherit; }
 .recent-list time { color: var(--muted); white-space: nowrap; }
 
 .subhero { min-height: 330px; text-align: center; }
-.subhero > div:not(.hero-shade) { position: relative; }
+.subhero > div:not(.hero-shade) { z-index: 2; position: relative; }
 .subhero h1 { margin: 0; font-size: 42px; letter-spacing: 0; }
 .subhero span { color: rgba(255,255,255,.8); font-size: 13px; }
 .article-hero { min-height: 480px; padding: 120px 20px 70px; align-items: end; }
-.article-hero-content { position: relative; width: min(920px, 100%); }
+.article-hero-content { z-index: 2; position: relative; width: min(920px, 100%); }
 .article-hero h1 { max-width: 850px; margin: 12px 0; font-size: clamp(36px, 6vw, 62px); line-height: 1.22; letter-spacing: 0; }
 .article-meta { color: rgba(255,255,255,.82); }
 .article-shell { width: min(1040px, calc(100% - 40px)); margin: -34px auto 80px; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 26px; align-items: start; }
@@ -144,7 +144,6 @@ button { color: inherit; font: inherit; }
   .brand span { max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .hero { min-height: 74vh; }
   .hero h1 { font-size: 42px; }
-  .hero-scroll { top: 165px; }
   .page-shell { margin-top: -24px; }
   .post-card, .post-card.has-cover { grid-template-columns: 1fr; }
   .post-cover { min-height: 210px; max-height: 250px; }

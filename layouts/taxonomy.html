@@ -1,0 +1,15 @@
+{{ define "main" }}
+  {{ $title := .Title }}
+  {{ if eq .Data.Plural "categories" }}{{ $title = "分类" }}{{ end }}
+  {{ if eq .Data.Plural "tags" }}{{ $title = "标签" }}{{ end }}
+  <section class="subhero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div><p>COLLECTION</p><h1>{{ $title }}</h1><span>等待新的旅程</span></div>
+  </section>
+  <div class="page-shell compact-shell">
+    <section class="content-column" aria-label="{{ $title }}页面说明">
+      <div class="empty-state taxonomy-placeholder">前面的区域以后再来探索吧喵！</div>
+    </section>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}
