@@ -8,8 +8,19 @@
   const toTop = document.getElementById('back-to-top');
   const savedTheme = localStorage.getItem('blog-theme');
   const heroBackgrounds = [...document.querySelectorAll('.hero-background')];
+  const pageTitle = document.title;
+  const awayTitle = '要记得回来看看我喵！ฅ^•ﻌ•^ฅ';
+
+  const syncPageTitle = () => {
+    document.title = document.hidden ? awayTitle : pageTitle;
+  };
 
   if (savedTheme) root.dataset.theme = savedTheme;
+
+  document.addEventListener('visibilitychange', syncPageTitle);
+  window.addEventListener('blur', () => { document.title = awayTitle; });
+  window.addEventListener('focus', syncPageTitle);
+  syncPageTitle();
 
   const syncGiscusTheme = (theme) => {
     const frame = document.querySelector('iframe.giscus-frame');

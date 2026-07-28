@@ -4,19 +4,9 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ if .IsHome }}欢迎来到{{ .Site.Title }}喵～ ヾ(≧▽≦*)o{{ else }}{{ .Title }} · {{ .Site.Title }}{{ end }}</title>
-    <script>
-      (() => {
-        const pageTitle = document.title;
-        const awayTitle = '要记得回来看看我喵！ฅ^•ﻌ•^ฅ';
-        const syncTitle = () => { document.title = document.hidden ? awayTitle : pageTitle; };
-        document.addEventListener('visibilitychange', syncTitle);
-        window.addEventListener('blur', () => { document.title = awayTitle; });
-        window.addEventListener('focus', syncTitle);
-      })();
-    </script>
     <meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
     <link rel="icon" type="image/png" href="{{ "images/OIP.png" | relURL }}">
-    <link rel="stylesheet" href="{{ "css/argon.css" | relURL }}?v=20260728-3">
+    <link rel="stylesheet" href="{{ "css/argon.css" | relURL }}?v=20260728-4">
     {{ with .OutputFormats.Get "RSS" }}<link rel="alternate" type="application/rss+xml" href="{{ .RelPermalink }}" title="{{ $.Site.Title }}">{{ end }}
   </head>
   <body class="page-kind-{{ .Kind }}">
@@ -25,6 +15,6 @@
     <main>{{ block "main" . }}{{ end }}</main>
     {{ partial "argon-footer.html" . }}
     <button class="back-to-top" id="back-to-top" type="button" aria-label="返回顶部" title="返回顶部">↑</button>
-    <script src="{{ "js/argon.js" | relURL }}?v=20260728-3" defer></script>
+    <script src="{{ "js/argon.js" | relURL }}?v=20260728-4" defer></script>
   </body>
 </html>
