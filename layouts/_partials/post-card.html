@@ -1,0 +1,21 @@
+<article class="post-card{{ if .Params.featured_image }} has-cover{{ end }}">
+  {{ with .Params.featured_image }}
+    <a class="post-cover" href="{{ $.RelPermalink }}" aria-label="阅读《{{ $.Title }}》">
+      <img src="{{ . | relURL }}" alt="" loading="lazy">
+    </a>
+  {{ end }}
+  <div class="post-card-body">
+    <div class="post-meta">
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+      <span>{{ .ReadingTime }} 分钟阅读</span>
+    </div>
+    <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+    <p>{{ .Summary | plainify | truncate 150 }}</p>
+    <div class="post-card-footer">
+      <div class="tag-row">
+        {{ with .Params.tags }}{{ range first 3 . }}<a href="{{ (printf "tags/%s/" (. | urlize)) | relURL }}">#{{ . }}</a>{{ end }}{{ end }}
+      </div>
+      <a class="read-more" href="{{ .RelPermalink }}">阅读全文 <span aria-hidden="true">→</span></a>
+    </div>
+  </div>
+</article>

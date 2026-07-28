@@ -1,0 +1,14 @@
+{{ define "main" }}
+  <section class="subhero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div><p>COLLECTION</p><h1>{{ .Title }}</h1><span>{{ len .Pages }} 个条目</span></div>
+  </section>
+  <div class="page-shell compact-shell">
+    <section class="content-column">
+      {{ .Content }}
+      {{ range .Paginator.Pages }}{{ partial "post-card.html" . }}{{ end }}
+      {{ template "_internal/pagination.html" . }}
+    </section>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}

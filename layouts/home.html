@@ -1,0 +1,24 @@
+{{ define "main" }}
+  <section class="hero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+      <p class="hero-kicker">WELCOME TO MY SPACE</p>
+      <h1>{{ .Site.Title }}</h1>
+      <p>{{ .Site.Params.description }}</p>
+      <a class="hero-scroll" href="#latest" aria-label="查看最新文章">⌄</a>
+    </div>
+  </section>
+  <div class="page-shell" id="latest">
+    <section class="content-column" aria-label="最新文章">
+      <div class="section-heading">
+        <div><span>RECENT POSTS</span><h2>最近文章</h2></div>
+        <a href="{{ "posts/" | relURL }}">查看全部</a>
+      </div>
+      {{ $posts := where .Site.RegularPages "Section" "posts" }}
+      {{ range first 8 $posts }}{{ partial "post-card.html" . }}{{ else }}
+        <div class="empty-state">还没有文章。</div>
+      {{ end }}
+    </section>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}

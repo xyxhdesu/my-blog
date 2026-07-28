@@ -1,5 +1,24 @@
 baseURL = "https://blog.xingyexiaohua.xyz/"
-locale = "zh-cn"
+locale = "zh-CN"
+defaultContentLanguage = "zh-cn"
 timeZone = "Asia/Shanghai"
 title = "我的博客"
 theme = "ananke"
+
+[languages]
+  [languages.zh-cn]
+    label = "简体中文"
+    locale = "zh-CN"
+    weight = 1
+
+[params]
+  description = "记录技术、生活与沿途的灵感"
+  author = "星野小花"
+  hero_image = "/images/argon-hero.jpg"
+  avatar = "/images/image.png"
+
+  [params.giscus]
+    repo = "xyxhdesu/my-blog"
+    repo_id = "R_kgDOTl4IkQ"
+    category = "Announcements"
+    category_id = "DIC_kwDOTl4Ikc4DCKCm"

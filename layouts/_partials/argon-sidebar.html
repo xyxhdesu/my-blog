@@ -1,0 +1,21 @@
+<aside class="sidebar" aria-label="站点信息">
+  <section class="profile-panel">
+    <div class="profile-cover"></div>
+    <img class="profile-avatar" src="{{ .Site.Params.avatar | relURL }}" alt="{{ .Site.Params.author }}" width="92" height="92">
+    <h2>{{ .Site.Params.author }}</h2>
+    <p>{{ .Site.Params.description }}</p>
+    <div class="site-stats">
+      <a href="{{ "posts/" | relURL }}"><strong>{{ len (where .Site.RegularPages "Section" "posts") }}</strong><span>文章</span></a>
+      <a href="{{ "categories/" | relURL }}"><strong>{{ len .Site.Taxonomies.categories }}</strong><span>分类</span></a>
+      <a href="{{ "tags/" | relURL }}"><strong>{{ len .Site.Taxonomies.tags }}</strong><span>标签</span></a>
+    </div>
+  </section>
+  <section class="side-panel">
+    <h2>最近文章</h2>
+    <div class="recent-list">
+      {{ range first 5 (where .Site.RegularPages "Section" "posts") }}
+        <a href="{{ .RelPermalink }}"><span>{{ .Title }}</span><time>{{ .Date.Format "01-02" }}</time></a>
+      {{ end }}
+    </div>
+  </section>
+</aside>

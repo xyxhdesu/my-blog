@@ -1,0 +1,16 @@
+<header class="site-nav" id="site-nav">
+  <div class="nav-inner">
+    <a class="brand" href="{{ .Site.Home.RelPermalink }}" aria-label="{{ .Site.Title }}首页">
+      <img src="{{ .Site.Params.avatar | relURL }}" alt="" width="38" height="38">
+      <span>{{ .Site.Title }}</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">☰</button>
+    <nav class="nav-links" id="nav-links" aria-label="主导航">
+      <a href="{{ .Site.Home.RelPermalink }}">首页</a>
+      <a href="{{ "posts/" | relURL }}">文章</a>
+      <a href="{{ "categories/" | relURL }}">分类</a>
+      <a href="{{ "tags/" | relURL }}">标签</a>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换颜色模式" title="切换颜色模式">◐</button>
+    </nav>
+  </div>
+</header>
