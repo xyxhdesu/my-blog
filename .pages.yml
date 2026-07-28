@@ -26,6 +26,7 @@ content:
         type: date
         options:
           time: true
+          format: yyyy-MM-dd'T'HH:mm:ss
       - name: draft
         label: 保存为草稿
         type: boolean

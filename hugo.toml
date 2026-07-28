@@ -1,4 +1,5 @@
 baseURL = "https://blog.xingyexiaohua.xyz/"
 locale = "zh-cn"
+timeZone = "Asia/Shanghai"
 title = "我的博客"
 theme = "ananke"
