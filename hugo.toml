@@ -2,7 +2,7 @@ baseURL = "https://blog.xingyexiaohua.xyz/"
 locale = "zh-CN"
 defaultContentLanguage = "zh-cn"
 timeZone = "Asia/Shanghai"
-title = "我的博客"
+title = "小花の博客"
 theme = "ananke"
 
 [languages]
@@ -14,7 +14,7 @@ theme = "ananke"
 [params]
   description = "记录技术、生活与沿途的灵感"
   author = "星野小花"
-  hero_image = "/images/argon-hero.jpg"
+  hero_image = "/images/heroes/hero (2).webp"
   avatar = "/images/image.png"
 
   [params.giscus]
