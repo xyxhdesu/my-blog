@@ -1,6 +1,9 @@
 +++
-date = '2026-07-28T17:17:26+08:00'
+title = '你好喵！'
+date = '2026-07-28T17:58'
 draft = false
-title = 'Hello'
 +++
+这是博客的开始喵！
+
+![image.png](/images/image.png)
 
