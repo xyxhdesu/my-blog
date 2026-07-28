@@ -42,6 +42,9 @@ content:
         label: 标签
         type: string
         list: true
+      - name: featured_image
+        label: 封面图片
+        type: image
       - name: body
         label: 正文
         type: rich-text
