@@ -1,0 +1,12 @@
+{{ define "main" }}
+  <section class="subhero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div><p>RELEASE NOTES</p><h1>{{ .Title }}</h1><span>记录这个小站持续发生的变化</span></div>
+  </section>
+  <div class="page-shell compact-shell">
+    <article class="article-panel changelog-panel">
+      <div class="changelog-content">{{ .Content }}</div>
+    </article>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}
