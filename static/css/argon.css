@@ -108,6 +108,9 @@ body.search-open { overflow: hidden; }
 .morning-report-date { color: var(--muted); font-size: 12px; white-space: nowrap; }
 .morning-report-loading { min-height: 150px; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--muted); font-size: 13px; }
 .morning-report-spinner { width: 18px; height: 18px; border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent); border-top-color: var(--accent); border-radius: 50%; animation: morning-spin .7s linear infinite; }
+.morning-report-error { min-height: 150px; padding: 24px; display: grid; place-content: center; justify-items: center; gap: 12px; color: var(--muted); font-size: 13px; text-align: center; }
+.morning-report-retry { min-width: 72px; min-height: 34px; padding: 0 13px; border: 1px solid var(--accent); border-radius: 4px; background: transparent; color: var(--accent-strong); cursor: pointer; font: inherit; }
+.morning-report-retry:hover { background: color-mix(in srgb, var(--accent) 9%, transparent); }
 .morning-report-content { padding: 20px 22px 17px; }
 .morning-section-label { margin-bottom: 13px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
 .morning-section-label span { font-size: 15px; font-weight: 700; }

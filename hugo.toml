@@ -24,7 +24,7 @@ theme = "ananke"
   hero_image = "/images/heroes/hero (2).webp"
   avatar = "/images/image.png"
 
-  morning_report_endpoint = "https://morning-report.1961335016.workers.dev/api/morning-report"
+  morning_report_endpoint = "/api/morning-report"
 
 [params.giscus]
     repo = "xyxhdesu/my-blog"

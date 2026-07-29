@@ -296,19 +296,41 @@
       footer.append(source, more);
       content.append(footer);
 
-      morningReport.querySelector('.morning-report-loading')?.replaceWith(content);
+      morningReport.querySelector('.morning-report-loading, .morning-report-error')?.replaceWith(content);
     };
 
-    fetch(endpoint, { credentials: 'same-origin' })
-      .then((response) => {
+    const showMorningReportError = () => {
+      const errorState = document.createElement('div');
+      errorState.className = 'morning-report-error';
+      errorState.setAttribute('role', 'status');
+      const message = document.createElement('span');
+      message.textContent = '日报暂时无法加载，请稍后重试。';
+      const retry = document.createElement('button');
+      retry.className = 'morning-report-retry';
+      retry.type = 'button';
+      retry.textContent = '重试';
+      retry.addEventListener('click', loadMorningReport);
+      errorState.append(message, retry);
+      morningReport.querySelector('.morning-report-loading, .morning-report-error')?.replaceWith(errorState);
+    };
+
+    const loadMorningReport = async () => {
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 8000);
+
+      try {
+        const response = await fetch(endpoint, { credentials: 'same-origin', signal: controller.signal });
         if (!response.ok) throw new Error(`Morning report request failed: ${response.status}`);
-        return response.json();
-      })
-      .then(renderMorningReport)
-      .catch((error) => {
+        renderMorningReport(await response.json());
+      } catch (error) {
         console.warn('Morning report unavailable', error);
-        morningReport.hidden = true;
-      });
+        showMorningReportError();
+      } finally {
+        window.clearTimeout(timeout);
+      }
+    };
+
+    loadMorningReport();
   }
 
   const musicToggle = document.getElementById('music-toggle');
