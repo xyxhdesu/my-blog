@@ -311,6 +311,35 @@
       });
   }
 
+  const musicToggle = document.getElementById('music-toggle');
+  const musicPanel = document.getElementById('music-panel');
+  const musicClose = document.getElementById('music-close');
+  const musicFrameSlot = document.getElementById('music-frame-slot');
+
+  if (musicToggle && musicPanel && musicClose && musicFrameSlot) {
+    const closeMusic = () => {
+      musicPanel.hidden = true;
+      musicToggle.setAttribute('aria-expanded', 'false');
+      musicFrameSlot.replaceChildren();
+    };
+
+    const openMusic = () => {
+      if (!musicFrameSlot.querySelector('iframe')) {
+        const frame = document.createElement('iframe');
+        frame.src = musicPanel.dataset.playerUrl;
+        frame.title = '网易云音乐歌单播放器';
+        frame.allow = 'autoplay';
+        frame.loading = 'lazy';
+        musicFrameSlot.append(frame);
+      }
+      musicPanel.hidden = false;
+      musicToggle.setAttribute('aria-expanded', 'true');
+    };
+
+    musicToggle.addEventListener('click', () => musicPanel.hidden ? openMusic() : closeMusic());
+    musicClose.addEventListener('click', closeMusic);
+  }
+
   const onScroll = () => {
     const y = window.scrollY;
     nav?.classList.toggle('is-scrolled', y > 32);

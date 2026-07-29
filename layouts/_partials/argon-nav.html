@@ -4,15 +4,16 @@
       <img src="{{ .Site.Params.avatar | relURL }}" alt="" width="38" height="38">
       <span>{{ .Site.Title }}</span>
     </a>
-    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">☰</button>
+    <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">&#9776;</button>
     <nav class="nav-links" id="nav-links" aria-label="主导航">
       <a href="{{ .Site.Home.RelPermalink }}">首页</a>
       <a href="{{ "posts/" | relURL }}">文章</a>
       <a href="{{ "categories/" | relURL }}">分类</a>
       <a href="{{ "tags/" | relURL }}">标签</a>
-      <button class="search-toggle" id="search-toggle" type="button" aria-label="搜索文章" title="搜索文章"><span class="search-icon" aria-hidden="true"></span></button>
-      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换颜色模式" title="切换颜色模式">◐</button>
       <a class="changelog-link" href="{{ "changelog/" | relURL }}">更新日志</a>
+      <button class="music-toggle" id="music-toggle" type="button" aria-label="打开音乐播放器" title="星野电台" aria-expanded="false">&#9835;</button>
+      <button class="search-toggle" id="search-toggle" type="button" aria-label="搜索文章" title="搜索文章"><span class="search-icon" aria-hidden="true"></span></button>
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换颜色模式" title="切换颜色模式">&#9680;</button>
     </nav>
   </div>
 </header>
@@ -24,7 +25,7 @@
         <span>SEARCH</span>
         <h2 id="search-title">搜索文章</h2>
       </div>
-      <button class="search-close" type="button" data-search-close aria-label="关闭搜索" title="关闭搜索">×</button>
+      <button class="search-close" type="button" data-search-close aria-label="关闭搜索" title="关闭搜索">&times;</button>
     </header>
     <label class="search-field">
       <span class="search-icon" aria-hidden="true"></span>
@@ -34,3 +35,10 @@
     <div class="search-results" id="search-results"></div>
   </section>
 </div>
+<aside class="music-panel" id="music-panel" data-player-url="https://music.163.com/outchain/player?type=0&amp;id=17374688975&amp;auto=0&amp;height=430" aria-label="星野电台" hidden>
+  <header class="music-panel-header">
+    <div><span>STARFIELD RADIO</span><h2>星野电台</h2></div>
+    <button class="music-close" id="music-close" type="button" aria-label="关闭音乐播放器" title="关闭音乐播放器">&times;</button>
+  </header>
+  <div class="music-frame-slot" id="music-frame-slot"></div>
+</aside>
