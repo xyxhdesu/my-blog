@@ -10,7 +10,26 @@
       <a href="{{ "posts/" | relURL }}">文章</a>
       <a href="{{ "categories/" | relURL }}">分类</a>
       <a href="{{ "tags/" | relURL }}">标签</a>
+      <button class="search-toggle" id="search-toggle" type="button" aria-label="搜索文章" title="搜索文章"><span class="search-icon" aria-hidden="true"></span></button>
       <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换颜色模式" title="切换颜色模式">◐</button>
     </nav>
   </div>
 </header>
+<div class="search-dialog" id="search-dialog" role="dialog" aria-modal="true" aria-labelledby="search-title" data-index-url="{{ "index.json" | relURL }}" hidden>
+  <button class="search-backdrop" type="button" data-search-close aria-label="关闭搜索"></button>
+  <section class="search-panel" aria-describedby="search-status">
+    <header class="search-header">
+      <div>
+        <span>SEARCH</span>
+        <h2 id="search-title">搜索文章</h2>
+      </div>
+      <button class="search-close" type="button" data-search-close aria-label="关闭搜索" title="关闭搜索">×</button>
+    </header>
+    <label class="search-field">
+      <span class="search-icon" aria-hidden="true"></span>
+      <input id="search-input" type="search" inputmode="search" autocomplete="off" placeholder="输入标题、标签或文章内容" aria-controls="search-results">
+    </label>
+    <p class="search-status" id="search-status" aria-live="polite">输入关键词开始搜索</p>
+    <div class="search-results" id="search-results"></div>
+  </section>
+</div>

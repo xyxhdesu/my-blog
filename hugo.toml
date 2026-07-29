@@ -5,6 +5,9 @@ timeZone = "Asia/Shanghai"
 title = "小花の博客"
 theme = "ananke"
 
+[outputs]
+  home = ["HTML", "RSS", "JSON"]
+
 [taxonomies]
   category = "categories"
   tag = "tags"
