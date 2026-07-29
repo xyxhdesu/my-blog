@@ -90,6 +90,34 @@ body.search-open { overflow: hidden; }
 .section-heading h2 { margin: 0; font-size: 22px; letter-spacing: 0; }
 .section-heading > a { color: var(--accent-strong); font-size: 13px; }
 
+.morning-report { overflow: hidden; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); box-shadow: var(--shadow); }
+.morning-report[hidden] { display: none; }
+.morning-report-heading { min-height: 78px; padding: 17px 22px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); }
+.morning-report-heading span { color: var(--warm); font-size: 10px; font-weight: 800; letter-spacing: 1.4px; }
+.morning-report-heading h2 { margin: 0; font-size: 22px; letter-spacing: 0; }
+.morning-report-date { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.morning-report-loading { min-height: 150px; display: flex; align-items: center; justify-content: center; gap: 10px; color: var(--muted); font-size: 13px; }
+.morning-report-spinner { width: 18px; height: 18px; border: 2px solid color-mix(in srgb, var(--accent) 25%, transparent); border-top-color: var(--accent); border-radius: 50%; animation: morning-spin .7s linear infinite; }
+.morning-report-content { padding: 20px 22px 17px; }
+.morning-section-label { margin-bottom: 13px; display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+.morning-section-label span { font-size: 15px; font-weight: 700; }
+.morning-section-label small { color: var(--muted); font-size: 11px; }
+.morning-airing-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.morning-airing-item { min-width: 0; min-height: 82px; padding: 8px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 6px; background: var(--canvas); transition: border-color .2s, transform .2s; }
+.morning-airing-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.morning-airing-item img { width: 46px; height: 62px; flex: 0 0 46px; border-radius: 4px; object-fit: cover; background: var(--line); }
+.morning-airing-details { min-width: 0; display: grid; gap: 3px; }
+.morning-airing-details strong { overflow: hidden; font-size: 13px; line-height: 1.45; text-overflow: ellipsis; white-space: nowrap; }
+.morning-airing-details small { overflow: hidden; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
+.morning-quote { margin: 20px 0 0; padding: 11px 14px; border-left: 3px solid var(--warm); background: color-mix(in srgb, var(--warm) 8%, var(--canvas)); color: var(--muted); font-size: 13px; line-height: 1.7; }
+.morning-quote p { margin: 0; }
+.morning-quote footer { margin-top: 3px; color: var(--accent-strong); font-size: 11px; }
+.morning-report-footer { margin-top: 18px; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid var(--line); }
+.morning-report-footer span { color: var(--muted); font-size: 11px; }
+.morning-report-footer a { color: var(--accent-strong); font-size: 12px; font-weight: 700; }
+
+@keyframes morning-spin { to { transform: rotate(360deg); } }
+
 .post-card, .profile-panel, .side-panel, .article-panel, .toc-panel, .empty-state { overflow: hidden; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); box-shadow: var(--shadow); }
 .post-card { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 220px; transition: transform .2s, box-shadow .2s; }
 .post-card.has-cover { grid-template-columns: 210px minmax(0, 1fr); }
@@ -190,6 +218,9 @@ body.search-open { overflow: hidden; }
   .post-cover { min-height: 210px; max-height: 250px; }
   .post-card-body { padding: 22px; }
   .post-card h2 { font-size: 22px; }
+  .morning-report-heading, .morning-report-footer { align-items: flex-start; flex-direction: column; }
+  .morning-report-heading { gap: 2px; }
+  .morning-airing-list { grid-template-columns: 1fr; }
   .post-card-footer, .footer-inner { align-items: flex-start; flex-direction: column; }
   .footer-inner { padding: 20px 0; justify-content: center; gap: 3px; }
   .article-hero { min-height: 420px; }

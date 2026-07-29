@@ -24,7 +24,9 @@ theme = "ananke"
   hero_image = "/images/heroes/hero (2).webp"
   avatar = "/images/image.png"
 
-  [params.giscus]
+  morning_report_endpoint = "https://morning-report.1961335016.workers.dev/api/morning-report"
+
+[params.giscus]
     repo = "xyxhdesu/my-blog"
     repo_id = "R_kgDOTl4IkQ"
     category = "Announcements"

@@ -5,6 +5,7 @@ resources/
 .preview/
 .tools/
 .wrangler/
+/workers/morning-report/wrangler.toml
 
 # Local credentials and private keys
 .env

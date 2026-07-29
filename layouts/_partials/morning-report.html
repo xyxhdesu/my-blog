@@ -1,0 +1,13 @@
+<section class="morning-report" id="morning-report" data-endpoint="{{ .Site.Params.morning_report_endpoint | default ("api/morning-report" | relURL) }}" aria-live="polite">
+  <div class="morning-report-heading">
+    <div>
+      <span>TODAY'S ANIME</span>
+      <h2>今日次元晨报</h2>
+    </div>
+    <time class="morning-report-date">加载中</time>
+  </div>
+  <div class="morning-report-loading" role="status">
+    <span class="morning-report-spinner" aria-hidden="true"></span>
+    正在整理今日放送
+  </div>
+</section>

@@ -210,6 +210,107 @@
     });
   }
 
+  const morningReport = document.getElementById('morning-report');
+
+  if (morningReport) {
+    const endpoint = morningReport.dataset.endpoint;
+
+    const createAiringItem = (item) => {
+      const link = document.createElement('a');
+      link.className = 'morning-airing-item';
+      link.href = item.url;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+
+      if (item.cover) {
+        const cover = document.createElement('img');
+        cover.src = item.cover;
+        cover.alt = '';
+        cover.loading = 'lazy';
+        cover.width = 56;
+        cover.height = 76;
+        link.append(cover);
+      }
+
+      const details = document.createElement('span');
+      details.className = 'morning-airing-details';
+      const title = document.createElement('strong');
+      title.textContent = item.title;
+      details.append(title);
+      if (item.subtitle) {
+        const subtitle = document.createElement('small');
+        subtitle.textContent = item.subtitle;
+        details.append(subtitle);
+      }
+      link.append(details);
+      return link;
+    };
+
+    const renderMorningReport = (report) => {
+      const date = morningReport.querySelector('.morning-report-date');
+      const content = document.createElement('div');
+      content.className = 'morning-report-content';
+      const airing = Array.isArray(report.airing) ? report.airing : [];
+
+      date.dateTime = report.date || '';
+      date.textContent = [report.date, report.weekday].filter(Boolean).join(' · ');
+
+      const airingSection = document.createElement('section');
+      airingSection.className = 'morning-airing';
+      const airingTitle = document.createElement('div');
+      airingTitle.className = 'morning-section-label';
+      const label = document.createElement('span');
+      label.textContent = '今日放送';
+      const count = document.createElement('small');
+      count.textContent = `共 ${report.total || airing.length} 部更新`;
+      airingTitle.append(label, count);
+      const airingList = document.createElement('div');
+      airingList.className = 'morning-airing-list';
+      airing.forEach((item) => airingList.append(createAiringItem(item)));
+      airingSection.append(airingTitle, airingList);
+      content.append(airingSection);
+
+      if (report.quote?.text) {
+        const quote = document.createElement('blockquote');
+        quote.className = 'morning-quote';
+        const quoteText = document.createElement('p');
+        quoteText.textContent = report.quote.text;
+        quote.append(quoteText);
+        if (report.quote.from) {
+          const quoteFrom = document.createElement('footer');
+          quoteFrom.textContent = `—— ${report.quote.from}`;
+          quote.append(quoteFrom);
+        }
+        content.append(quote);
+      }
+
+      const footer = document.createElement('div');
+      footer.className = 'morning-report-footer';
+      const source = document.createElement('span');
+      source.textContent = '数据：Bangumi · Hitokoto';
+      const more = document.createElement('a');
+      more.href = report.calendarUrl || 'https://bgm.tv/calendar';
+      more.target = '_blank';
+      more.rel = 'noopener noreferrer';
+      more.textContent = '查看全部今日放送';
+      footer.append(source, more);
+      content.append(footer);
+
+      morningReport.querySelector('.morning-report-loading')?.replaceWith(content);
+    };
+
+    fetch(endpoint, { credentials: 'same-origin' })
+      .then((response) => {
+        if (!response.ok) throw new Error(`Morning report request failed: ${response.status}`);
+        return response.json();
+      })
+      .then(renderMorningReport)
+      .catch((error) => {
+        console.warn('Morning report unavailable', error);
+        morningReport.hidden = true;
+      });
+  }
+
   const onScroll = () => {
     const y = window.scrollY;
     nav?.classList.toggle('is-scrolled', y > 32);

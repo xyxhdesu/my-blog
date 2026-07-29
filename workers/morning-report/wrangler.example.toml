@@ -1,0 +1,11 @@
+name = "morning-report"
+main = "src/index.js"
+compatibility_date = "2026-07-29"
+workers_dev = true
+
+[triggers]
+crons = ["0 23 * * *"]
+
+[[kv_namespaces]]
+binding = "MORNING_REPORTS"
+id = "replace-with-your-kv-namespace-id"
