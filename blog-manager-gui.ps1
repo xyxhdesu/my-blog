@@ -1,4 +1,4 @@
-[CmdletBinding()]
+﻿[CmdletBinding()]
 param(
     [string]$ScreenshotPath = "",
     [switch]$SmokeTest,
@@ -93,7 +93,7 @@ function Start-EngineAction([string]$ActionName, [string]$Arguments) {
     $engine = Quote-PowerShellLiteral $script:EnginePath
     $invocation = '$ProgressPreference="SilentlyContinue"; [Console]::OutputEncoding=[Text.Encoding]::UTF8; try { ' +
         "& $engine $Arguments 3>&1 4>&1 5>&1 6>&1" +
-        ' | ForEach-Object { [Console]::Out.WriteLine([string]$_) } } catch { [Console]::Out.WriteLine("[ERROR] " + $_.Exception.Message); exit 1 }'
+        ' | ForEach-Object { [Console]::Out.WriteLine([string]$_) } } catch { [Console]::Out.WriteLine("[错误] " + $_.Exception.Message); exit 1 }'
     $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($invocation))
     $startInfo = New-Object System.Diagnostics.ProcessStartInfo
     $startInfo.FileName = "powershell.exe"
