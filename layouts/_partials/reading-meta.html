@@ -1,0 +1,4 @@
+{{ $characters := strings.CountRunes .Plain }}
+{{ $minutes := div (add $characters 399) 400 }}
+{{ if lt $minutes 1 }}{{ $minutes = 1 }}{{ end }}
+<span>{{ $characters }} 字</span><span>{{ $minutes }} 分钟阅读</span>

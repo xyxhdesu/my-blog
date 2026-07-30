@@ -4,7 +4,7 @@
     <div class="article-hero-content">
       <div class="tag-row">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</div>
       <h1>{{ .Title }}</h1>
-      <div class="article-meta"><time>{{ .Date.Format "2006-01-02" }}</time><span>{{ .WordCount }} 字</span><span>{{ .ReadingTime }} 分钟阅读</span></div>
+      <div class="article-meta"><time>{{ .Date.Format "2006-01-02" }}</time>{{ partial "reading-meta.html" . }}</div>
     </div>
   </section>
   <div class="article-shell">

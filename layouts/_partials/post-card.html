@@ -7,7 +7,7 @@
   <div class="post-card-body">
     <div class="post-meta">
       <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
-      <span>{{ .ReadingTime }} 分钟阅读</span>
+      {{ partial "reading-meta.html" . }}
       {{ range first 1 (.GetTerms "categories") }}<a class="category-link" href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}
     </div>
     <h2><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
