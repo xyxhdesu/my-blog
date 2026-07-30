@@ -65,12 +65,15 @@ content:
     type: collection
     path: data/taxonomy/categories
     format: json
-    filename: "{primary}.json"
+    filename: "{id}.json"
     view:
       fields: [name]
       primary: name
       sort: [name]
     fields:
+      - name: id
+        type: uuid
+        hidden: true
       - name: name
         label: 分类名称
         type: string
@@ -80,12 +83,15 @@ content:
     type: collection
     path: data/taxonomy/tags
     format: json
-    filename: "{primary}.json"
+    filename: "{id}.json"
     view:
       fields: [name]
       primary: name
       sort: [name]
     fields:
+      - name: id
+        type: uuid
+        hidden: true
       - name: name
         label: 标签名称
         type: string
