@@ -35,10 +35,13 @@
     <div class="search-results" id="search-results"></div>
   </section>
 </div>
-<aside class="music-panel" id="music-panel" data-player-url="https://music.163.com/outchain/player?type=0&amp;id=17374688975&amp;auto=0&amp;height=430" aria-label="星野电台" hidden>
+<aside class="music-panel" id="music-panel" data-player-url="https://music.163.com/outchain/player?type=0&amp;id=17374688975&amp;auto=0&amp;height=90" aria-label="星野电台" hidden>
   <header class="music-panel-header">
     <div><span>STARFIELD RADIO</span><h2>星野电台</h2></div>
-    <button class="music-close" id="music-close" type="button" aria-label="关闭音乐播放器" title="关闭音乐播放器">&times;</button>
+    <div class="music-actions" aria-label="音乐播放器操作">
+      <button class="music-stop" id="music-stop" type="button" aria-label="停止音乐并关闭播放器" title="停止音乐并关闭播放器">&#9632;</button>
+      <button class="music-close" id="music-close" type="button" aria-label="收起播放器，音乐继续播放" title="收起播放器，音乐继续播放">&#8722;</button>
+    </div>
   </header>
   <div class="music-frame-slot" id="music-frame-slot"></div>
 </aside>

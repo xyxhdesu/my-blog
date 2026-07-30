@@ -336,12 +336,17 @@
   const musicToggle = document.getElementById('music-toggle');
   const musicPanel = document.getElementById('music-panel');
   const musicClose = document.getElementById('music-close');
+  const musicStop = document.getElementById('music-stop');
   const musicFrameSlot = document.getElementById('music-frame-slot');
 
-  if (musicToggle && musicPanel && musicClose && musicFrameSlot) {
-    const closeMusic = () => {
+  if (musicToggle && musicPanel && musicClose && musicStop && musicFrameSlot) {
+    const collapseMusic = () => {
       musicPanel.hidden = true;
       musicToggle.setAttribute('aria-expanded', 'false');
+    };
+
+    const stopMusic = () => {
+      collapseMusic();
       musicFrameSlot.replaceChildren();
     };
 
@@ -358,8 +363,9 @@
       musicToggle.setAttribute('aria-expanded', 'true');
     };
 
-    musicToggle.addEventListener('click', () => musicPanel.hidden ? openMusic() : closeMusic());
-    musicClose.addEventListener('click', closeMusic);
+    musicToggle.addEventListener('click', () => musicPanel.hidden ? openMusic() : collapseMusic());
+    musicClose.addEventListener('click', collapseMusic);
+    musicStop.addEventListener('click', stopMusic);
   }
 
   const onScroll = () => {
