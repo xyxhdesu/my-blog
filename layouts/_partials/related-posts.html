@@ -1,0 +1,20 @@
+{{ $related := where (.Site.RegularPages.Related .) "Section" "posts" }}
+{{ $fallback := where (where .Site.RegularPages "Section" "posts") "RelPermalink" "ne" .RelPermalink }}
+{{ $posts := first 3 (union $related $fallback) }}
+{{ if gt (len $posts) 0 }}
+  <section class="related-posts" aria-labelledby="related-posts-title">
+    <div class="related-posts-heading">
+      <span>KEEP READING</span>
+      <h2 id="related-posts-title">相关文章</h2>
+    </div>
+    <div class="related-posts-list">
+      {{ range $posts }}
+        <a class="related-post" href="{{ .RelPermalink }}">
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "2006-01-02" }}</time>
+          <strong>{{ .Title }}</strong>
+          <span>{{ with index (.GetTerms "categories") 0 }}{{ .LinkTitle }} · {{ end }}{{ .Summary | plainify | truncate 76 }}</span>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

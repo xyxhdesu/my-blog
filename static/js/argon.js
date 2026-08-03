@@ -11,6 +11,7 @@
   const searchInput = document.getElementById('search-input');
   const searchStatus = document.getElementById('search-status');
   const searchResults = document.getElementById('search-results');
+  const randomButton = document.getElementById('random-toggle');
   const savedTheme = localStorage.getItem('blog-theme');
   const heroBackgrounds = [...document.querySelectorAll('.hero-background')];
   const pageTitle = document.title;
@@ -208,6 +209,43 @@
         searchDialog.hidden ? openSearch() : closeSearch();
       }
     });
+  }
+
+  if (randomButton) {
+    const randomStorageKey = 'blog-last-random-post';
+    const originalRandomTitle = randomButton.title;
+
+    const randomPost = async () => {
+      randomButton.disabled = true;
+      randomButton.setAttribute('aria-busy', 'true');
+      try {
+        const response = await fetch(randomButton.dataset.indexUrl, { credentials: 'same-origin' });
+        if (!response.ok) throw new Error(`Random index request failed: ${response.status}`);
+        const posts = await response.json();
+        const currentUrl = new URL(window.location.href).pathname.replace(/\/$/, '') || '/';
+        const lastUrl = localStorage.getItem(randomStorageKey);
+        let candidates = posts.filter((post) => post.url && post.url.replace(/\/$/, '') !== currentUrl);
+        if (candidates.length > 1) candidates = candidates.filter((post) => post.url !== lastUrl);
+        if (!candidates.length) candidates = posts;
+        const choice = candidates[Math.floor(Math.random() * candidates.length)];
+        if (!choice?.url) throw new Error('Random index has no posts');
+        try {
+          localStorage.setItem(randomStorageKey, choice.url);
+        } catch (error) {
+          console.warn('Random post history could not be saved', error);
+        }
+        window.location.assign(choice.url);
+      } catch (error) {
+        console.warn('Random post unavailable', error);
+        randomButton.title = '暂时无法随机漫游';
+        window.setTimeout(() => { randomButton.title = originalRandomTitle; }, 2500);
+      } finally {
+        randomButton.disabled = false;
+        randomButton.removeAttribute('aria-busy');
+      }
+    };
+
+    randomButton.addEventListener('click', randomPost);
   }
 
   const morningReport = document.getElementById('morning-report');
@@ -455,6 +493,48 @@
       saveArticles(articles);
       updateSaveButton(index === -1);
       renderReadingList();
+    });
+  }
+
+  const likeStorageKey = 'blog-liked-articles';
+  const likeArticleButton = document.querySelector('[data-article-like]');
+
+  const getLikedArticles = () => {
+    try {
+      const liked = JSON.parse(localStorage.getItem(likeStorageKey) || '[]');
+      return Array.isArray(liked) ? liked : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const updateLikeButton = (liked) => {
+    if (!likeArticleButton) return;
+    const icon = likeArticleButton.querySelector('[data-article-like-icon]');
+    const label = likeArticleButton.querySelector('[data-article-like-label]');
+    const count = likeArticleButton.querySelector('[data-article-like-count]');
+    likeArticleButton.classList.toggle('is-liked', liked);
+    likeArticleButton.setAttribute('aria-pressed', String(liked));
+    likeArticleButton.title = liked ? '取消喜欢' : '喜欢这篇文章';
+    if (icon) icon.textContent = String.fromCodePoint(liked ? 0x2665 : 0x2661);
+    if (label) label.textContent = liked ? '已喜欢' : '喜欢';
+    if (count) count.textContent = liked ? '1' : '0';
+  };
+
+  if (likeArticleButton) {
+    const articleUrl = likeArticleButton.dataset.articleUrl;
+    updateLikeButton(getLikedArticles().includes(articleUrl));
+    likeArticleButton.addEventListener('click', () => {
+      const liked = getLikedArticles();
+      const index = liked.indexOf(articleUrl);
+      if (index === -1) liked.push(articleUrl);
+      else liked.splice(index, 1);
+      try {
+        localStorage.setItem(likeStorageKey, JSON.stringify(liked));
+      } catch (error) {
+        console.warn('Article like could not be saved', error);
+      }
+      updateLikeButton(index === -1);
     });
   }
 

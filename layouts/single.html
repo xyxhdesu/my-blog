@@ -16,12 +16,16 @@
         <button class="save-article" type="button" data-reading-save data-reading-url="{{ .RelPermalink }}" data-reading-title="{{ .Title }}" data-reading-date="{{ .Date.Format "2006-01-02" }}" data-reading-minutes="{{ $minutes }}" aria-pressed="false">
           <span class="save-article-icon" aria-hidden="true"></span><span data-reading-save-label>加入稍后读</span>
         </button>
+        <button class="like-article" type="button" data-article-like data-article-url="{{ .RelPermalink }}" aria-pressed="false">
+          <span class="like-article-icon" data-article-like-icon aria-hidden="true">&#9825;</span><span data-article-like-label>喜欢</span><span class="like-article-count" data-article-like-count>0</span>
+        </button>
       </div>
       <div class="article-content">{{ .Content }}</div>
       <footer class="article-end">
         <div class="tag-row">{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}</div>
         <span>— END —</span>
       </footer>
+      {{ partial "related-posts.html" . }}
       {{ partial "giscus.html" . }}
     </article>
     {{ if .Params.toc }}<aside class="toc-panel"><h2>文章目录</h2>{{ .TableOfContents }}</aside>{{ end }}
