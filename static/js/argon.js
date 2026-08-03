@@ -368,6 +368,105 @@
     musicStop.addEventListener('click', stopMusic);
   }
 
+  const readingStorageKey = 'blog-reading-list';
+  const readingList = document.getElementById('reading-list');
+  const saveArticleButton = document.querySelector('[data-reading-save]');
+
+  const getSavedArticles = () => {
+    try {
+      const saved = JSON.parse(localStorage.getItem(readingStorageKey) || '[]');
+      return Array.isArray(saved) ? saved.filter((item) => item && item.url && item.title) : [];
+    } catch {
+      return [];
+    }
+  };
+
+  const saveArticles = (articles) => {
+    try {
+      localStorage.setItem(readingStorageKey, JSON.stringify(articles.slice(0, 30)));
+    } catch (error) {
+      console.warn('Reading list could not be saved', error);
+    }
+  };
+
+  const updateSaveButton = (saved) => {
+    if (!saveArticleButton) return;
+    const label = saveArticleButton.querySelector('[data-reading-save-label]');
+    saveArticleButton.classList.toggle('is-saved', saved);
+    saveArticleButton.setAttribute('aria-pressed', String(saved));
+    if (label) label.textContent = saved ? '已加入稍后读' : '加入稍后读';
+  };
+
+  const renderReadingList = () => {
+    if (!readingList) return;
+    const content = readingList.querySelector('[data-reading-list-content]');
+    const count = readingList.querySelector('[data-reading-list-count]');
+    const articles = getSavedArticles();
+    count.textContent = `${articles.length} 篇`;
+    content.replaceChildren();
+
+    if (!articles.length) {
+      const empty = document.createElement('p');
+      empty.className = 'reading-list-empty';
+      empty.textContent = '把想慢慢看的文章存到这里。';
+      content.append(empty);
+      return;
+    }
+
+    const list = document.createElement('div');
+    list.className = 'reading-list-items';
+    articles.forEach((article) => {
+      const item = document.createElement('article');
+      item.className = 'reading-list-item';
+      const link = document.createElement('a');
+      link.href = article.url;
+      const title = document.createElement('strong');
+      title.textContent = article.title;
+      const meta = document.createElement('span');
+      meta.textContent = [article.date, article.minutes ? `${article.minutes} 分钟阅读` : ''].filter(Boolean).join(' · ');
+      link.append(title, meta);
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'reading-list-remove';
+      remove.dataset.readingRemove = article.url;
+      remove.setAttribute('aria-label', `从稍后读移除《${article.title}》`);
+      remove.title = '从稍后读移除';
+      remove.textContent = '×';
+      item.append(link, remove);
+      list.append(item);
+    });
+    content.append(list);
+  };
+
+  if (saveArticleButton) {
+    const article = {
+      url: saveArticleButton.dataset.readingUrl,
+      title: saveArticleButton.dataset.readingTitle,
+      date: saveArticleButton.dataset.readingDate,
+      minutes: saveArticleButton.dataset.readingMinutes,
+    };
+    updateSaveButton(getSavedArticles().some((item) => item.url === article.url));
+    saveArticleButton.addEventListener('click', () => {
+      const articles = getSavedArticles();
+      const index = articles.findIndex((item) => item.url === article.url);
+      if (index === -1) articles.unshift(article);
+      else articles.splice(index, 1);
+      saveArticles(articles);
+      updateSaveButton(index === -1);
+      renderReadingList();
+    });
+  }
+
+  readingList?.addEventListener('click', (event) => {
+    const remove = event.target.closest('[data-reading-remove]');
+    if (!remove) return;
+    const articles = getSavedArticles().filter((item) => item.url !== remove.dataset.readingRemove);
+    saveArticles(articles);
+    renderReadingList();
+  });
+  renderReadingList();
+
   const onScroll = () => {
     const y = window.scrollY;
     nav?.classList.toggle('is-scrolled', y > 32);

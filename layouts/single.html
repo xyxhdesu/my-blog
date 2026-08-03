@@ -1,4 +1,7 @@
 {{ define "main" }}
+  {{ $characters := strings.CountRunes .Plain }}
+  {{ $minutes := div (add $characters 399) 400 }}
+  {{ if lt $minutes 1 }}{{ $minutes = 1 }}{{ end }}
   <section class="article-hero" style="background-image: url('{{ with .Params.featured_image }}{{ . | relURL }}{{ else }}{{ .Site.Params.hero_image | relURL }}{{ end }}')">
     <div class="hero-shade"></div>
     <div class="article-hero-content">
@@ -9,6 +12,11 @@
   </section>
   <div class="article-shell">
     <article class="article-panel">
+      <div class="article-tools">
+        <button class="save-article" type="button" data-reading-save data-reading-url="{{ .RelPermalink }}" data-reading-title="{{ .Title }}" data-reading-date="{{ .Date.Format "2006-01-02" }}" data-reading-minutes="{{ $minutes }}" aria-pressed="false">
+          <span class="save-article-icon" aria-hidden="true"></span><span data-reading-save-label>加入稍后读</span>
+        </button>
+      </div>
       <div class="article-content">{{ .Content }}</div>
       <footer class="article-end">
         <div class="tag-row">{{ range .GetTerms "tags" }}<a href="{{ .RelPermalink }}">#{{ .LinkTitle }}</a>{{ end }}</div>

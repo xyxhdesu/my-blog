@@ -133,6 +133,22 @@ body.search-open { overflow: hidden; }
 .morning-report-footer span { color: var(--muted); font-size: 11px; }
 .morning-report-footer a { color: var(--accent-strong); font-size: 12px; font-weight: 700; }
 
+.reading-list { overflow: hidden; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); box-shadow: var(--shadow); }
+.reading-list-heading { min-height: 76px; padding: 16px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+.reading-list-heading span { color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: 1.4px; }
+.reading-list-heading h2 { margin: 0; font-size: 22px; letter-spacing: 0; }
+.reading-list-heading small { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.reading-list-content { padding: 8px 22px; }
+.reading-list-empty { margin: 11px 0; color: var(--muted); font-size: 13px; }
+.reading-list-item { min-width: 0; padding: 12px 0; display: flex; align-items: center; gap: 12px; border-top: 1px solid var(--line); }
+.reading-list-item:first-child { border-top: 0; }
+.reading-list-item a { min-width: 0; flex: 1; display: grid; gap: 2px; }
+.reading-list-item strong { overflow: hidden; font-size: 14px; line-height: 1.45; text-overflow: ellipsis; white-space: nowrap; }
+.reading-list-item a:hover strong { color: var(--accent-strong); }
+.reading-list-item span { color: var(--muted); font-size: 11px; }
+.reading-list-remove { width: 28px; height: 28px; flex: 0 0 28px; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); font-size: 21px; line-height: 1; cursor: pointer; }
+.reading-list-remove:hover, .reading-list-remove:focus-visible { outline: 0; border-color: var(--warm); background: color-mix(in srgb, var(--warm) 9%, transparent); color: var(--warm); }
+
 @keyframes morning-spin { to { transform: rotate(360deg); } }
 
 .post-card, .profile-panel, .side-panel, .article-panel, .toc-panel, .empty-state { overflow: hidden; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); box-shadow: var(--shadow); }
@@ -182,6 +198,12 @@ body.search-open { overflow: hidden; }
 .article-meta { color: rgba(255,255,255,.82); }
 .article-shell { width: min(1040px, calc(100% - 40px)); margin: -34px auto 80px; position: relative; display: grid; grid-template-columns: minmax(0, 1fr) 240px; gap: 26px; align-items: start; }
 .article-panel { padding: clamp(25px, 5vw, 56px); }
+.article-tools { margin: 0 0 28px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.save-article { min-height: 38px; padding: 7px 12px; display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--line); border-radius: 5px; background: var(--canvas); color: var(--accent-strong); font-size: 13px; font-weight: 700; cursor: pointer; }
+.save-article:hover, .save-article:focus-visible { outline: 0; border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--canvas)); }
+.save-article.is-saved { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--canvas)); }
+.save-article-icon { width: 12px; height: 16px; display: block; border: 2px solid currentColor; border-bottom: 0; border-radius: 2px 2px 0 0; }
+.save-article.is-saved .save-article-icon { background: currentColor; }
 .article-content { font-family: Georgia, "Noto Serif SC", "Songti SC", serif; font-size: 17px; line-height: 1.9; }
 .article-content h2, .article-content h3 { margin-top: 2em; font-family: Inter, "Segoe UI", "Microsoft YaHei", sans-serif; letter-spacing: 0; }
 .article-content h2 { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
