@@ -31,5 +31,6 @@ npx wrangler secret put BANGUMI_ACCESS_TOKEN
 
 - Keeps a date-specific report and `morning-report:latest` fallback in KV.
 - Shows three high-ranked titles from the current Bangumi weekday.
+- Caches five Hitokoto entries for each report; the homepage adds one local fallback entry as the sixth quote.
 - Links users to `https://bgm.tv/calendar` for the complete daily schedule.
 - If both cache and upstream data are unavailable, the homepage hides the card.

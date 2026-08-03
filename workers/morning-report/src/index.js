@@ -3,6 +3,8 @@ const HITOKOTO_URL = 'https://v1.hitokoto.cn/?c=a&c=b&c=c&encode=json';
 const SHANGHAI_TIME_ZONE = 'Asia/Shanghai';
 const BANGUMI_CALENDAR_URL_FOR_VISITORS = 'https://bgm.tv/calendar';
 const ALLOWED_ORIGIN = 'https://blog.xingyexiaohua.xyz';
+const QUOTE_COUNT = 5;
+const QUOTE_REQUEST_COUNT = 7;
 
 const weekdayIds = {
   Mon: 1,
@@ -79,6 +81,24 @@ function formatAiringItems(calendar, weekdayId) {
   return { total: items.length, selected };
 }
 
+async function fetchQuotes() {
+  const results = await Promise.all(
+    Array.from({ length: QUOTE_REQUEST_COUNT }, (_, index) => {
+      const requestUrl = `${HITOKOTO_URL}&request=${Date.now()}-${index}`;
+      return fetchJson(requestUrl).catch(() => null);
+    }),
+  );
+  const seen = new Set();
+
+  return results
+    .map((result) => result?.hitokoto ? {
+      text: result.hitokoto,
+      from: result.from_who || result.from || '',
+    } : null)
+    .filter((quote) => quote?.text && !seen.has(quote.text) && seen.add(quote.text))
+    .slice(0, QUOTE_COUNT);
+}
+
 async function buildReport(env) {
   const now = shanghaiNow();
   const headers = {
@@ -87,9 +107,9 @@ async function buildReport(env) {
   };
   if (env.BANGUMI_ACCESS_TOKEN) headers.Authorization = `Bearer ${env.BANGUMI_ACCESS_TOKEN}`;
 
-  const [calendar, quoteResult] = await Promise.all([
+  const [calendar, quotes] = await Promise.all([
     fetchJson(BANGUMI_CALENDAR_URL, { headers }),
-    fetchJson(HITOKOTO_URL).catch(() => null),
+    fetchQuotes(),
   ]);
   const airing = formatAiringItems(calendar, now.weekdayId);
 
@@ -98,10 +118,8 @@ async function buildReport(env) {
     weekday: now.weekday,
     total: airing.total,
     airing: airing.selected,
-    quote: quoteResult?.hitokoto ? {
-      text: quoteResult.hitokoto,
-      from: quoteResult.from_who || quoteResult.from || '',
-    } : null,
+    quotes,
+    quote: quotes[0] || null,
     calendarUrl: BANGUMI_CALENDAR_URL_FOR_VISITORS,
     generatedAt: new Date().toISOString(),
   };
@@ -129,6 +147,10 @@ function jsonResponse(payload, status = 200) {
   });
 }
 
+function hasQuoteSet(report) {
+  return Array.isArray(report?.quotes) && report.quotes.length >= QUOTE_COUNT;
+}
+
 export default {
   async scheduled(_controller, env, ctx) {
     ctx.waitUntil(refreshReport(env));
@@ -142,15 +164,18 @@ export default {
 
     const { date } = shanghaiNow();
     const today = await env.MORNING_REPORTS.get(`morning-report:${date}`);
-    if (today) return jsonResponse(JSON.parse(today));
+    const cachedToday = today ? JSON.parse(today) : null;
+    if (hasQuoteSet(cachedToday)) return jsonResponse(cachedToday);
 
     const latest = await env.MORNING_REPORTS.get('morning-report:latest');
-    if (latest) return jsonResponse(JSON.parse(latest));
+    const cachedLatest = latest ? JSON.parse(latest) : null;
+    if (hasQuoteSet(cachedLatest)) return jsonResponse(cachedLatest);
 
     try {
       return jsonResponse(await refreshReport(env));
     } catch (error) {
       console.error('Morning report is unavailable', error);
+      if (cachedToday || cachedLatest) return jsonResponse(cachedToday || cachedLatest);
       return jsonResponse({ error: 'Morning report is not ready yet.' }, 503);
     }
   },

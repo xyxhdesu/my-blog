@@ -131,6 +131,7 @@ body.search-open { overflow: hidden; }
 .morning-quote { min-height: 116px; margin: 20px 0 0; padding: 11px 14px; border-left: 3px solid var(--warm); background: color-mix(in srgb, var(--warm) 8%, var(--canvas)); color: var(--muted); font-size: 13px; line-height: 1.7; }
 .morning-quote-label { display: block; margin-bottom: 5px; color: var(--warm); font-size: 9px; font-weight: 800; letter-spacing: 1.25px; }
 .morning-quote p { min-height: 3.4em; margin: 0; }
+.morning-quote.is-typing .morning-quote-text::after { width: 1px; height: 1em; margin-left: 3px; display: inline-block; background: var(--accent-strong); vertical-align: -.12em; animation: quote-caret .85s step-end infinite; content: ""; }
 .morning-quote footer { min-height: 1.7em; margin-top: 3px; color: var(--accent-strong); font-size: 11px; }
 .morning-report-footer { margin-top: 18px; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid var(--line); }
 .morning-report-footer span { color: var(--muted); font-size: 11px; }
@@ -153,6 +154,7 @@ body.search-open { overflow: hidden; }
 .reading-list-remove:hover, .reading-list-remove:focus-visible { outline: 0; border-color: var(--warm); background: color-mix(in srgb, var(--warm) 9%, transparent); color: var(--warm); }
 
 @keyframes morning-spin { to { transform: rotate(360deg); } }
+@keyframes quote-caret { 50% { opacity: 0; } }
 
 .post-card, .profile-panel, .side-panel, .article-panel, .toc-panel, .empty-state { overflow: hidden; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); box-shadow: var(--shadow); }
 .post-card { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 220px; transition: transform .2s, box-shadow .2s; }
@@ -320,4 +322,5 @@ body.search-open { overflow: hidden; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .hero-background { transition: none; }
+  .morning-quote.is-typing .morning-quote-text::after { display: none; }
 }

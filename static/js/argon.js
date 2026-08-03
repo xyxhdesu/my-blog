@@ -253,14 +253,7 @@
   if (morningReport) {
     const endpoint = morningReport.dataset.endpoint;
     const quoteCount = 6;
-    const fallbackAnimeQuotes = [
-      { text: '把今天的风收进信封，明天再拆开。', from: '小花的备忘' },
-      { text: '星光落在肩上，赶路的人也有了方向。', from: '小花的备忘' },
-      { text: '故事还没有结尾，所以现在出发也不算晚。', from: '小花的备忘' },
-      { text: '在普通的日子里，也要留一盏灯给自己。', from: '小花的备忘' },
-      { text: '把喜欢的事慢慢做好，时间会记得。', from: '小花的备忘' },
-      { text: '愿每一次抬头，都能看见值得期待的远方。', from: '小花的备忘' },
-    ];
+    const fallbackAnimeQuote = { text: '把今天的风收进信封，明天再拆开。', from: '小花的备忘' };
 
     const normalizeQuotes = (quotes) => {
       const unique = new Set();
@@ -271,7 +264,7 @@
     };
 
     const getAnimeQuotes = (report) => {
-      const cacheKey = `blog-anime-quotes:v1:${report.date || 'latest'}`;
+      const cacheKey = `blog-anime-quotes:v2:${report.date || 'latest'}`;
       try {
         const cached = normalizeQuotes(JSON.parse(localStorage.getItem(cacheKey) || '[]'));
         if (cached.length >= quoteCount) return cached.slice(0, quoteCount);
@@ -280,7 +273,7 @@
       }
 
       const supplied = Array.isArray(report.quotes) ? report.quotes : [report.quote];
-      const quotes = normalizeQuotes([...supplied, ...fallbackAnimeQuotes]).slice(0, quoteCount);
+      const quotes = normalizeQuotes([...supplied.slice(0, quoteCount - 1), fallbackAnimeQuote]);
       try {
         localStorage.setItem(cacheKey, JSON.stringify(quotes));
       } catch (error) {
@@ -294,6 +287,7 @@
       label.className = 'morning-quote-label';
       label.textContent = '次元语录';
       const text = document.createElement('p');
+      text.className = 'morning-quote-text';
       const from = document.createElement('footer');
       quote.append(label, text, from);
 
@@ -303,6 +297,7 @@
         return;
       }
 
+      quote.classList.add('is-typing');
       let index = 0;
       let character = 0;
       let deleting = false;
