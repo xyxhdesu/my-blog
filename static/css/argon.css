@@ -128,9 +128,10 @@ body.search-open { overflow: hidden; }
 .morning-airing-details { min-width: 0; display: grid; gap: 3px; }
 .morning-airing-details strong { overflow: hidden; font-size: 13px; line-height: 1.45; text-overflow: ellipsis; white-space: nowrap; }
 .morning-airing-details small { overflow: hidden; color: var(--muted); font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
-.morning-quote { margin: 20px 0 0; padding: 11px 14px; border-left: 3px solid var(--warm); background: color-mix(in srgb, var(--warm) 8%, var(--canvas)); color: var(--muted); font-size: 13px; line-height: 1.7; }
-.morning-quote p { margin: 0; }
-.morning-quote footer { margin-top: 3px; color: var(--accent-strong); font-size: 11px; }
+.morning-quote { min-height: 116px; margin: 20px 0 0; padding: 11px 14px; border-left: 3px solid var(--warm); background: color-mix(in srgb, var(--warm) 8%, var(--canvas)); color: var(--muted); font-size: 13px; line-height: 1.7; }
+.morning-quote-label { display: block; margin-bottom: 5px; color: var(--warm); font-size: 9px; font-weight: 800; letter-spacing: 1.25px; }
+.morning-quote p { min-height: 3.4em; margin: 0; }
+.morning-quote footer { min-height: 1.7em; margin-top: 3px; color: var(--accent-strong); font-size: 11px; }
 .morning-report-footer { margin-top: 18px; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 15px; border-top: 1px solid var(--line); }
 .morning-report-footer span { color: var(--muted); font-size: 11px; }
 .morning-report-footer a { color: var(--accent-strong); font-size: 12px; font-weight: 700; }
@@ -189,6 +190,13 @@ body.search-open { overflow: hidden; }
 .side-panel h2, .toc-panel h2 { margin: 0 0 14px; font-size: 16px; letter-spacing: 0; }
 .recent-list a { display: flex; justify-content: space-between; gap: 15px; padding: 10px 0; border-top: 1px solid var(--line); font-size: 13px; }
 .recent-list time { color: var(--muted); white-space: nowrap; }
+.site-status-heading { margin-bottom: 13px; }
+.site-status-heading span { display: block; color: var(--warm); font-size: 9px; font-weight: 800; letter-spacing: 1.25px; }
+.site-status-heading h2 { margin: 0; }
+.site-status-list { margin: 0; }
+.site-status-list > div { min-height: 34px; padding: 7px 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-top: 1px solid var(--line); }
+.site-status-list dt { color: var(--muted); font-size: 12px; }
+.site-status-list dd { margin: 0; color: var(--accent-strong); font-size: 12px; font-weight: 700; text-align: right; }
 
 .subhero { min-height: 330px; text-align: center; }
 .subhero > div:not(.hero-shade) { z-index: 2; position: relative; }

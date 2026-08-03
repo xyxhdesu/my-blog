@@ -252,6 +252,87 @@
 
   if (morningReport) {
     const endpoint = morningReport.dataset.endpoint;
+    const quoteCount = 6;
+    const fallbackAnimeQuotes = [
+      { text: '把今天的风收进信封，明天再拆开。', from: '小花的备忘' },
+      { text: '星光落在肩上，赶路的人也有了方向。', from: '小花的备忘' },
+      { text: '故事还没有结尾，所以现在出发也不算晚。', from: '小花的备忘' },
+      { text: '在普通的日子里，也要留一盏灯给自己。', from: '小花的备忘' },
+      { text: '把喜欢的事慢慢做好，时间会记得。', from: '小花的备忘' },
+      { text: '愿每一次抬头，都能看见值得期待的远方。', from: '小花的备忘' },
+    ];
+
+    const normalizeQuotes = (quotes) => {
+      const unique = new Set();
+      return quotes
+        .filter((quote) => quote?.text)
+        .map((quote) => ({ text: String(quote.text).trim(), from: String(quote.from || '').trim() }))
+        .filter((quote) => quote.text && !unique.has(quote.text) && unique.add(quote.text));
+    };
+
+    const getAnimeQuotes = (report) => {
+      const cacheKey = `blog-anime-quotes:v1:${report.date || 'latest'}`;
+      try {
+        const cached = normalizeQuotes(JSON.parse(localStorage.getItem(cacheKey) || '[]'));
+        if (cached.length >= quoteCount) return cached.slice(0, quoteCount);
+      } catch {
+        // A fresh quote set can still be displayed when storage is unavailable.
+      }
+
+      const supplied = Array.isArray(report.quotes) ? report.quotes : [report.quote];
+      const quotes = normalizeQuotes([...supplied, ...fallbackAnimeQuotes]).slice(0, quoteCount);
+      try {
+        localStorage.setItem(cacheKey, JSON.stringify(quotes));
+      } catch (error) {
+        console.warn('Anime quotes could not be cached', error);
+      }
+      return quotes;
+    };
+
+    const startAnimeQuoteCycle = (quote, quotes) => {
+      const label = document.createElement('span');
+      label.className = 'morning-quote-label';
+      label.textContent = '次元语录';
+      const text = document.createElement('p');
+      const from = document.createElement('footer');
+      quote.append(label, text, from);
+
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        text.textContent = quotes[0].text;
+        from.textContent = quotes[0].from ? `—— ${quotes[0].from}` : '';
+        return;
+      }
+
+      let index = 0;
+      let character = 0;
+      let deleting = false;
+      const tick = () => {
+        const current = quotes[index];
+        text.textContent = current.text.slice(0, character);
+        from.textContent = character === current.text.length && current.from ? `—— ${current.from}` : '';
+
+        if (!deleting) {
+          if (character < current.text.length) {
+            character += 1;
+            window.setTimeout(tick, 48);
+          } else {
+            deleting = true;
+            window.setTimeout(tick, 4200);
+          }
+          return;
+        }
+
+        if (character > 0) {
+          character -= 1;
+          window.setTimeout(tick, 26);
+        } else {
+          deleting = false;
+          index = (index + 1) % quotes.length;
+          window.setTimeout(tick, 550);
+        }
+      };
+      tick();
+    };
 
     const createAiringItem = (item) => {
       const link = document.createElement('a');
@@ -308,17 +389,11 @@
       airingSection.append(airingTitle, airingList);
       content.append(airingSection);
 
-      if (report.quote?.text) {
+      const quotes = getAnimeQuotes(report);
+      if (quotes.length) {
         const quote = document.createElement('blockquote');
         quote.className = 'morning-quote';
-        const quoteText = document.createElement('p');
-        quoteText.textContent = report.quote.text;
-        quote.append(quoteText);
-        if (report.quote.from) {
-          const quoteFrom = document.createElement('footer');
-          quoteFrom.textContent = `—— ${report.quote.from}`;
-          quote.append(quoteFrom);
-        }
+        startAnimeQuoteCycle(quote, quotes);
         content.append(quote);
       }
 
@@ -546,6 +621,43 @@
     renderReadingList();
   });
   renderReadingList();
+
+  const siteStatus = document.getElementById('site-status');
+  const siteUptime = siteStatus?.querySelector('[data-site-uptime]');
+  const siteClock = siteStatus?.querySelector('[data-site-clock]');
+
+  if (siteClock) {
+    const clockFormatter = new Intl.DateTimeFormat('zh-CN', {
+      timeZone: 'Asia/Shanghai',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    });
+    const updateSiteClock = () => { siteClock.textContent = clockFormatter.format(new Date()); };
+    updateSiteClock();
+    window.setInterval(updateSiteClock, 1000);
+  }
+
+  if (siteUptime) {
+    const startedAt = new Date(siteStatus.dataset.siteStartedAt);
+    const updateSiteUptime = () => {
+      const elapsed = Date.now() - startedAt.getTime();
+      if (Number.isNaN(elapsed) || elapsed < 0) {
+        siteUptime.textContent = '等待启程';
+        return;
+      }
+      const totalMinutes = Math.floor(elapsed / 60000);
+      const days = Math.floor(totalMinutes / 1440);
+      const hours = Math.floor((totalMinutes % 1440) / 60);
+      const minutes = totalMinutes % 60;
+      siteUptime.textContent = `${days} 天 ${hours} 小时 ${minutes} 分`;
+    };
+    updateSiteUptime();
+    window.setInterval(updateSiteUptime, 60000);
+  }
 
   const onScroll = () => {
     const y = window.scrollY;

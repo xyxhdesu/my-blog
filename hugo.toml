@@ -37,6 +37,7 @@ theme = "ananke"
   avatar = "/images/image.png"
 
   morning_report_endpoint = "/api/morning-report"
+  site_started_at = "2026-07-28T00:00:00+08:00"
 
 [params.giscus]
     repo = "xyxhdesu/my-blog"
