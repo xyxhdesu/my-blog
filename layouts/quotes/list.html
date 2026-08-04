@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <section class="subhero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div><p>QUOTE ARCHIVE</p><h1>{{ .Title }}</h1><span>{{ .Description }}</span></div>
+  </section>
+  <div class="page-shell compact-shell">
+    <article class="article-panel quote-archive" id="quote-archive" data-endpoint="{{ "api/quote-archive" | relURL }}">
+      <header class="quote-archive-heading">
+        <div><span>DIMENSIONAL NOTES</span><h2>本月语录</h2></div>
+        <label class="quote-month-picker">选择月份 <input type="month" data-quote-month></label>
+      </header>
+      <div class="quote-archive-intro">{{ .Content }}</div>
+      <div class="quote-archive-content" data-quote-archive-content aria-live="polite">
+        <p class="quote-archive-loading">正在翻找语录...</p>
+      </div>
+    </article>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}

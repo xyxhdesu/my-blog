@@ -231,6 +231,7 @@
         if (!choice?.url) throw new Error('Random index has no posts');
         try {
           localStorage.setItem(randomStorageKey, choice.url);
+          incrementWeeklyStat('random');
         } catch (error) {
           console.warn('Random post history could not be saved', error);
         }
@@ -601,6 +602,7 @@
       else liked.splice(index, 1);
       try {
         localStorage.setItem(likeStorageKey, JSON.stringify(liked));
+        if (index === -1) incrementWeeklyStat('likes');
       } catch (error) {
         console.warn('Article like could not be saved', error);
       }
@@ -616,6 +618,110 @@
     renderReadingList();
   });
   renderReadingList();
+
+  const weeklySummary = document.getElementById('weekly-summary');
+
+  const weekKey = () => {
+    const date = new Date();
+    const day = date.getDay() || 7;
+    date.setDate(date.getDate() - day + 1);
+    return [date.getFullYear(), String(date.getMonth() + 1).padStart(2, '0'), String(date.getDate()).padStart(2, '0')].join('-');
+  };
+
+  const weeklyStatsKey = 'blog-weekly-stats:v1';
+  const getWeeklyStats = () => {
+    const currentWeek = weekKey();
+    try {
+      const stored = JSON.parse(localStorage.getItem(weeklyStatsKey) || '{}');
+      if (stored.week === currentWeek) return { week: currentWeek, likes: Number(stored.likes) || 0, random: Number(stored.random) || 0 };
+    } catch {
+      // Start fresh when the previous value cannot be read.
+    }
+    return { week: currentWeek, likes: 0, random: 0 };
+  };
+
+  const renderWeeklyStats = () => {
+    if (!weeklySummary) return;
+    const stats = getWeeklyStats();
+    weeklySummary.querySelector('[data-weekly-likes]').textContent = String(stats.likes);
+    weeklySummary.querySelector('[data-weekly-random]').textContent = String(stats.random);
+  };
+
+  const incrementWeeklyStat = (name) => {
+    const stats = getWeeklyStats();
+    stats[name] += 1;
+    try {
+      localStorage.setItem(weeklyStatsKey, JSON.stringify(stats));
+    } catch (error) {
+      console.warn('Weekly statistics could not be saved', error);
+    }
+    renderWeeklyStats();
+  };
+
+  renderWeeklyStats();
+
+  const quoteArchive = document.getElementById('quote-archive');
+  if (quoteArchive) {
+    const monthPicker = quoteArchive.querySelector('[data-quote-month]');
+    const content = quoteArchive.querySelector('[data-quote-archive-content]');
+    const currentMonth = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Shanghai', year: 'numeric', month: '2-digit' })
+      .formatToParts(new Date()).filter((part) => part.type === 'year' || part.type === 'month').map((part) => part.value).join('-');
+
+    const renderQuoteArchive = (archive) => {
+      content.replaceChildren();
+      if (!archive.days?.length) {
+        const empty = document.createElement('p');
+        empty.className = 'quote-archive-empty';
+        empty.textContent = '这个月的语录还在慢慢积累。';
+        content.append(empty);
+        return;
+      }
+
+      archive.days.forEach((day) => {
+        const section = document.createElement('section');
+        section.className = 'quote-archive-day';
+        const heading = document.createElement('h3');
+        heading.textContent = [day.date, day.weekday].filter(Boolean).join(' · ');
+        const list = document.createElement('ol');
+        (day.quotes || []).forEach((quote) => {
+          const item = document.createElement('li');
+          const text = document.createElement('p');
+          text.textContent = quote.text;
+          item.append(text);
+          if (quote.from) {
+            const from = document.createElement('span');
+            from.textContent = `—— ${quote.from}`;
+            item.append(from);
+          }
+          list.append(item);
+        });
+        section.append(heading, list);
+        content.append(section);
+      });
+    };
+
+    const loadQuoteArchive = async () => {
+      content.replaceChildren();
+      const loading = document.createElement('p');
+      loading.className = 'quote-archive-loading';
+      loading.textContent = '正在翻找语录...';
+      content.append(loading);
+      try {
+        const response = await fetch(`${quoteArchive.dataset.endpoint}?month=${encodeURIComponent(monthPicker.value)}`, { credentials: 'same-origin' });
+        if (!response.ok) throw new Error(`Quote archive request failed: ${response.status}`);
+        renderQuoteArchive(await response.json());
+      } catch (error) {
+        console.warn('Quote archive unavailable', error);
+        loading.className = 'quote-archive-empty';
+        loading.textContent = '语录暂时无法加载，请稍后再试。';
+      }
+    };
+
+    monthPicker.value = currentMonth();
+    monthPicker.max = currentMonth();
+    monthPicker.addEventListener('change', loadQuoteArchive);
+    loadQuoteArchive();
+  }
 
   const siteStatus = document.getElementById('site-status');
   const siteUptime = siteStatus?.querySelector('[data-site-uptime]');

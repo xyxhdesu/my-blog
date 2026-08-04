@@ -151,6 +151,28 @@ function hasQuoteSet(report) {
   return Array.isArray(report?.quotes) && report.quotes.length >= QUOTE_COUNT;
 }
 
+function isValidMonth(value) {
+  return /^\d{4}-(0[1-9]|1[0-2])$/.test(value);
+}
+
+async function getQuoteArchive(env, month) {
+  const listed = await env.MORNING_REPORTS.list({ prefix: `morning-report:${month}` });
+  const reports = await Promise.all(listed.keys.map(async ({ name }) => {
+    const stored = await env.MORNING_REPORTS.get(name, 'json');
+    if (!hasQuoteSet(stored)) return null;
+    return {
+      date: stored.date,
+      weekday: stored.weekday,
+      quotes: stored.quotes.slice(0, QUOTE_COUNT),
+    };
+  }));
+
+  return {
+    month,
+    days: reports.filter(Boolean).sort((left, right) => right.date.localeCompare(left.date)),
+  };
+}
+
 export default {
   async scheduled(_controller, env, ctx) {
     ctx.waitUntil(refreshReport(env));
@@ -158,9 +180,18 @@ export default {
 
   async fetch(request, env) {
     const url = new URL(request.url);
-    if (request.method !== 'GET' || url.pathname !== '/api/morning-report') {
+    if (request.method !== 'GET') {
       return new Response('Not found', { status: 404 });
     }
+
+    if (url.pathname === '/api/quote-archive') {
+      const { date } = shanghaiNow();
+      const month = url.searchParams.get('month') || date.slice(0, 7);
+      if (!isValidMonth(month)) return jsonResponse({ error: 'Invalid month.' }, 400);
+      return jsonResponse(await getQuoteArchive(env, month));
+    }
+
+    if (url.pathname !== '/api/morning-report') return new Response('Not found', { status: 404 });
 
     const { date } = shanghaiNow();
     const today = await env.MORNING_REPORTS.get(`morning-report:${date}`);

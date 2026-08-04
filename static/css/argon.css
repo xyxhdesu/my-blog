@@ -153,6 +153,35 @@ body.search-open { overflow: hidden; }
 .reading-list-remove { width: 28px; height: 28px; flex: 0 0 28px; padding: 0; border: 1px solid var(--line); border-radius: 4px; background: transparent; color: var(--muted); font-size: 21px; line-height: 1; cursor: pointer; }
 .reading-list-remove:hover, .reading-list-remove:focus-visible { outline: 0; border-color: var(--warm); background: color-mix(in srgb, var(--warm) 9%, transparent); color: var(--warm); }
 
+.weekly-summary { overflow: hidden; margin-bottom: 24px; border: 1px solid var(--line); border-radius: 7px; background: var(--panel); box-shadow: var(--shadow); }
+.weekly-summary-heading { min-height: 72px; padding: 15px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; border-bottom: 1px solid var(--line); }
+.weekly-summary-heading span, .quote-archive-heading span { display: block; color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: 1.4px; }
+.weekly-summary-heading h2, .quote-archive-heading h2 { margin: 0; font-size: 21px; letter-spacing: 0; }
+.weekly-summary-heading small { color: var(--muted); font-size: 11px; }
+.weekly-summary-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.weekly-summary-grid > div { min-width: 0; padding: 17px 13px; text-align: center; }
+.weekly-summary-grid > div + div { border-left: 1px solid var(--line); }
+.weekly-summary-grid strong, .weekly-summary-grid span { display: block; }
+.weekly-summary-grid strong { color: var(--accent-strong); font-size: 23px; line-height: 1.15; }
+.weekly-summary-grid span { margin-top: 5px; color: var(--muted); font-size: 11px; }
+.weekly-summary > p { margin: 0; padding: 9px 22px 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
+
+.quote-archive { padding: clamp(24px, 5vw, 48px); }
+.quote-archive-heading { padding-bottom: 20px; display: flex; align-items: center; justify-content: space-between; gap: 18px; border-bottom: 1px solid var(--line); }
+.quote-month-picker { display: flex; align-items: center; gap: 8px; color: var(--muted); font-size: 12px; white-space: nowrap; }
+.quote-month-picker input { min-height: 34px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 4px; background: var(--canvas); color: var(--ink); }
+.quote-archive-intro { margin: 18px 0 24px; color: var(--muted); font-size: 14px; }
+.quote-archive-intro > :first-child { margin-top: 0; }
+.quote-archive-intro > :last-child { margin-bottom: 0; }
+.quote-archive-day { padding: 18px 0; border-top: 1px solid var(--line); }
+.quote-archive-day h3 { margin: 0 0 13px; color: var(--accent-strong); font-size: 15px; letter-spacing: 0; }
+.quote-archive-day ol { margin: 0; padding-left: 23px; }
+.quote-archive-day li { padding-left: 4px; color: var(--muted); }
+.quote-archive-day li + li { margin-top: 11px; }
+.quote-archive-day p { margin: 0; font-size: 14px; }
+.quote-archive-day span { color: var(--accent-strong); font-size: 11px; }
+.quote-archive-loading, .quote-archive-empty { margin: 0; padding: 38px 0 14px; color: var(--muted); text-align: center; font-size: 13px; }
+
 @keyframes morning-spin { to { transform: rotate(360deg); } }
 @keyframes quote-caret { 50% { opacity: 0; } }
 
@@ -300,6 +329,9 @@ body.search-open { overflow: hidden; }
   .morning-report-heading, .morning-report-footer { align-items: flex-start; flex-direction: column; }
   .morning-report-heading { gap: 2px; }
   .morning-airing-list { grid-template-columns: 1fr; }
+  .weekly-summary-grid { grid-template-columns: 1fr; }
+  .weekly-summary-grid > div + div { border-top: 1px solid var(--line); border-left: 0; }
+  .quote-archive-heading { align-items: flex-start; flex-direction: column; }
   .post-card-footer, .footer-inner { align-items: flex-start; flex-direction: column; }
   .footer-inner { padding: 20px 0; justify-content: center; gap: 3px; }
   .article-hero { min-height: 420px; }

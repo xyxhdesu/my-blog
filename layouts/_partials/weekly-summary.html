@@ -1,0 +1,15 @@
+{{ $weekStart := now.AddDate 0 0 -6 }}
+{{ $posts := where .Site.RegularPages "Section" "posts" }}
+{{ $recentPosts := where $posts "Date" "ge" $weekStart }}
+<section class="weekly-summary" id="weekly-summary" aria-label="本周小结">
+  <header class="weekly-summary-heading">
+    <div><span>WEEKLY RECAP</span><h2>本周小结</h2></div>
+    <small>截至今天</small>
+  </header>
+  <div class="weekly-summary-grid">
+    <div><strong>{{ len $recentPosts }}</strong><span>近七日新增文章</span></div>
+    <div><strong data-weekly-likes>0</strong><span>本周喜欢文章</span></div>
+    <div><strong data-weekly-random>0</strong><span>本周随机漫游</span></div>
+  </div>
+  <p>喜欢和漫游仅统计当前浏览器的本周记录。</p>
+</section>
