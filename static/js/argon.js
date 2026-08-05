@@ -28,6 +28,26 @@
   window.addEventListener('focus', syncPageTitle);
   syncPageTitle();
 
+  const visitorCount = document.getElementById('site-visit-count');
+  const articleViewCount = document.querySelector('[data-article-view-count]');
+
+  if (visitorCount || articleViewCount) {
+    const formatCount = (count) => new Intl.NumberFormat('zh-CN').format(Number(count) || 0);
+
+    fetch(`/api/visitor-stats?path=${encodeURIComponent(window.location.pathname)}`, {
+      credentials: 'same-origin',
+    }).then((response) => {
+      if (!response.ok) throw new Error(`Visitor statistics request failed: ${response.status}`);
+      return response.json();
+    }).then((stats) => {
+      if (visitorCount) visitorCount.textContent = formatCount(stats.siteViews);
+      if (articleViewCount) articleViewCount.textContent = `阅读 ${formatCount(stats.pageViews)}`;
+    }).catch((error) => {
+      console.warn('Visitor statistics unavailable', error);
+      if (visitorCount) visitorCount.textContent = '--';
+    });
+  }
+
   const syncGiscusTheme = (theme) => {
     const frame = document.querySelector('iframe.giscus-frame');
     if (frame) frame.contentWindow.postMessage({ giscus: { setConfig: { theme } } }, 'https://giscus.app');
