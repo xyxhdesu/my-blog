@@ -30,8 +30,11 @@
 
   const visitorCount = document.getElementById('site-visit-count');
   const articleViewCount = document.querySelector('[data-article-view-count]');
+  const siteTotalViews = document.querySelector('[data-site-total-views]');
+  const siteTodayViews = document.querySelector('[data-site-today-views]');
+  const siteTodayVisitors = document.querySelector('[data-site-today-visitors]');
 
-  if (visitorCount || articleViewCount) {
+  if (visitorCount || articleViewCount || siteTotalViews || siteTodayViews || siteTodayVisitors) {
     const formatCount = (count) => new Intl.NumberFormat('zh-CN').format(Number(count) || 0);
 
     fetch(`/api/visitor-stats?path=${encodeURIComponent(window.location.pathname)}`, {
@@ -42,6 +45,9 @@
     }).then((stats) => {
       if (visitorCount) visitorCount.textContent = formatCount(stats.siteViews);
       if (articleViewCount) articleViewCount.textContent = `阅读 ${formatCount(stats.pageViews)}`;
+      if (siteTotalViews) siteTotalViews.textContent = formatCount(stats.siteViews);
+      if (siteTodayViews) siteTodayViews.textContent = formatCount(stats.todayViews);
+      if (siteTodayVisitors) siteTodayVisitors.textContent = formatCount(stats.todayVisitors);
     }).catch((error) => {
       console.warn('Visitor statistics unavailable', error);
       if (visitorCount) visitorCount.textContent = '--';

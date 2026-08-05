@@ -98,14 +98,17 @@ export async function recordVisit({ database, path, userAgent, visitorId, salt, 
   await database.batch(statements);
 }
 
-export async function getVisitStats(database, path) {
+export async function getVisitStats(database, path, now = new Date()) {
   if (!database) return null;
+  const date = shanghaiDate(now);
   const { results } = await database.prepare(
-    'SELECT scope, value FROM visitor_counters WHERE scope IN (?, ?)',
-  ).bind('site:views', `page:${path}`).all();
+    'SELECT scope, value FROM visitor_counters WHERE scope IN (?, ?, ?, ?)',
+  ).bind('site:views', `page:${path}`, `day:${date}:views`, `day:${date}:visitors`).all();
   const values = new Map(results.map((row) => [row.scope, Number(row.value)]));
   return {
     siteViews: values.get('site:views') || 0,
     pageViews: values.get(`page:${path}`) || 0,
+    todayViews: values.get(`day:${date}:views`) || 0,
+    todayVisitors: values.get(`day:${date}:visitors`) || 0,
   };
 }
