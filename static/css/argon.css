@@ -32,6 +32,12 @@ img { display: block; max-width: 100%; }
 button, input { color: inherit; font: inherit; }
 body.search-open { overflow: hidden; }
 
+/* The Live2D widget is intentionally desktop-only and should stay behind dialogs. */
+#waifu { z-index: 900; }
+@media (max-width: 899px) {
+  #waifu { display: none !important; }
+}
+
 .reading-progress { position: fixed; z-index: 1100; top: 0; left: 0; width: 100%; height: 3px; background: var(--warm); transform: scaleX(0); transform-origin: left; }
 .site-nav { position: fixed; z-index: 1000; top: 0; width: 100%; color: #fff; transition: background .25s, box-shadow .25s; }
 .site-nav.is-scrolled, .page-kind-page .site-nav, .page-kind-section .site-nav, .page-kind-taxonomy .site-nav, .page-kind-term .site-nav { background: color-mix(in srgb, #17262d 88%, transparent); box-shadow: 0 6px 24px rgba(0,0,0,.14); backdrop-filter: blur(14px); }

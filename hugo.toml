@@ -39,6 +39,9 @@ theme = "ananke"
   morning_report_endpoint = "/api/morning-report"
   site_started_at = "2026-07-28T00:00:00+08:00"
 
+  [params.live2d]
+    enabled = true
+
 [params.giscus]
     repo = "xyxhdesu/my-blog"
     repo_id = "R_kgDOTl4IkQ"
