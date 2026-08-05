@@ -5,5 +5,14 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
 
+/css/*
+  Cache-Control: public, max-age=604800
+
+/js/*
+  Cache-Control: public, max-age=604800
+
+/images/*
+  Cache-Control: public, max-age=604800
+
 /index.json
   Access-Control-Allow-Origin: https://xingyexiaohua.xyz

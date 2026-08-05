@@ -799,7 +799,9 @@
 
   if (heroBackgrounds.length) {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let currentIndex = Math.floor(Math.random() * heroBackgrounds.length);
+    const hero = document.querySelector('.hero');
+    let currentIndex = heroBackgrounds.findIndex((background) => background.dataset.heroSrc === hero?.dataset.heroSrc);
+    if (currentIndex < 0) currentIndex = 0;
 
     const loadBackground = (index) => new Promise((resolve) => {
       const background = heroBackgrounds[index];
@@ -819,21 +821,21 @@
     });
 
     const nextIndex = () => (currentIndex + 1) % heroBackgrounds.length;
-    const preloadNext = () => { loadBackground(nextIndex()); };
     const show = async (index) => {
       if (!await loadBackground(index)) return false;
       heroBackgrounds.forEach((background, backgroundIndex) => {
         background.classList.toggle('is-active', backgroundIndex === index);
       });
       currentIndex = index;
-      preloadNext();
       return true;
     };
 
-    show(currentIndex).then((shown) => {
-      if (!shown || reducedMotion || heroBackgrounds.length < 2) return;
-      window.setInterval(() => { show(nextIndex()); }, 10000);
-    });
+    if (!reducedMotion && heroBackgrounds.length > 1) {
+      window.setTimeout(() => {
+        show(nextIndex());
+        window.setInterval(() => { show(nextIndex()); }, 15000);
+      }, 5000);
+    }
   }
 
   onScroll();

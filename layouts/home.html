@@ -1,6 +1,6 @@
 {{ define "main" }}
   {{ $heroImages := slice "images/heroes/hero (1).webp" "images/heroes/hero (2).webp" "images/heroes/hero (3).webp" "images/heroes/hero (4).webp" "images/heroes/hero (5).webp" "images/heroes/hero (6).webp" "images/heroes/hero (7).webp" "images/heroes/hero (8).webp" }}
-  <section class="hero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+  <section class="hero" data-hero-src="{{ .Site.Params.hero_image | relURL }}" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
     <div class="hero-backgrounds" aria-hidden="true">
       {{ range $heroImages }}<div class="hero-background" data-hero-src="{{ . | relURL }}"></div>{{ end }}
     </div>
