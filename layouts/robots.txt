@@ -1,0 +1,5 @@
+{{- /* Keep crawler access explicit in production and advertise the canonical sitemap. */ -}}
+User-agent: *
+Allow: /
+
+Sitemap: {{ "sitemap.xml" | absURL }}
