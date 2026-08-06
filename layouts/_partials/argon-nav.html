@@ -6,7 +6,6 @@
     </a>
     <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">&#9776;</button>
     <nav class="nav-links" id="nav-links" aria-label="主导航">
-      <a href="https://www.xingyexiaohua.xyz/">主站</a>
       <a href="{{ .Site.Home.RelPermalink }}">首页</a>
       <a href="{{ "posts/" | relURL }}">文章</a>
       <a href="{{ "categories/" | relURL }}">分类</a>
@@ -14,6 +13,7 @@
       <a href="{{ "quotes/" | relURL }}">语录</a>
       <a href="{{ "about/" | relURL }}">关于</a>
       <a class="changelog-link" href="{{ "changelog/" | relURL }}">更新日志</a>
+      <a href="https://www.xingyexiaohua.xyz/">返回主站 ↗</a>
       <button class="random-toggle" id="random-toggle" type="button" data-index-url="{{ "index.json" | relURL }}" aria-label="随机阅读一篇文章" title="随机漫游">&#x2684;</button>
       <button class="music-toggle" id="music-toggle" type="button" aria-label="打开音乐播放器" title="星野电台" aria-expanded="false">&#9835;</button>
       <button class="search-toggle" id="search-toggle" type="button" aria-label="搜索文章" title="搜索文章"><span class="search-icon" aria-hidden="true"></span></button>
