@@ -1,0 +1,16 @@
+{{ define "main" }}
+  <section class="subhero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div>
+      <p>ABOUT THE STARFIELD</p>
+      <h1>{{ .Title }}</h1>
+      <span>{{ .Description }}</span>
+    </div>
+  </section>
+  <div class="page-shell compact-shell">
+    <article class="article-panel about-panel">
+      <div class="article-content">{{ .Content }}</div>
+    </article>
+    {{ partial "argon-sidebar.html" . }}
+  </div>
+{{ end }}
