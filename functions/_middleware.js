@@ -34,6 +34,6 @@ export async function onRequest(context) {
   if (!shouldTrack || existingVisitorId || !visitorId) return response;
 
   const headers = new Headers(response.headers);
-  headers.append('Set-Cookie', `${VISITOR_COOKIE}=${visitorId}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; Secure; SameSite=Lax`);
+  headers.append('Set-Cookie', `${VISITOR_COOKIE}=${visitorId}; Max-Age=${ONE_YEAR_SECONDS}; Path=/; Secure; HttpOnly; SameSite=Lax`);
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
