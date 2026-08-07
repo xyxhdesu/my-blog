@@ -1,8 +1,10 @@
 <footer class="site-footer">
   <div class="footer-inner">
-    <span>© {{ now.Year }} {{ .Site.Title }}</span>
-    <span>访问 <strong id="site-visit-count" class="site-visit-count" aria-label="本站访问量">--</strong></span>
-    <span>由 Hugo 驱动 · Argon 风格设计</span>
-    <a class="footer-icp" href="https://icp.gov.moe/?keyword=20265478" target="_blank" rel="noopener noreferrer">萌ICP备20265478号</a>
+    <span class="footer-brand">© {{ now.Year }} {{ .Site.Title }}</span>
+    <span class="footer-visit"><span>访问</span><strong id="site-visit-count" class="site-visit-count" aria-label="本站访问量">--</strong></span>
+    <span class="footer-links">
+      <span class="footer-credit">由 Hugo 驱动 · Argon 风格设计</span>
+      <a class="footer-icp" href="https://icp.gov.moe/?keyword=20265478" target="_blank" rel="noopener noreferrer">萌ICP备20265478号</a>
+    </span>
   </div>
 </footer>
