@@ -307,6 +307,7 @@ body.search-open { overflow: hidden; }
 
 .site-footer { border-top: 1px solid var(--line); background: var(--panel); color: var(--muted); font-size: 12px; }
 .footer-inner { width: min(1180px, calc(100% - 40px)); min-height: 80px; margin: auto; display: flex; align-items: center; justify-content: space-between; }
+.footer-icp { color: var(--accent-strong); font-weight: 700; text-decoration: underline; text-underline-offset: 3px; }
 .site-visit-count { color: var(--accent-strong); font-variant-numeric: tabular-nums; }
 .back-to-top { position: fixed; z-index: 900; right: 24px; bottom: 24px; width: 42px; height: 42px; border: 0; border-radius: 50%; background: var(--accent); color: #fff; box-shadow: var(--shadow); cursor: pointer; opacity: 0; pointer-events: none; transform: translateY(10px); transition: .2s; }
 .back-to-top.is-visible { opacity: 1; pointer-events: auto; transform: none; }
