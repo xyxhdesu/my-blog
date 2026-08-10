@@ -79,6 +79,25 @@
     const normalize = (value) => String(value || '').normalize('NFKC').toLocaleLowerCase();
     const searchableText = (post) => [post.title, post.summary, post.content, ...(post.categories || []), ...(post.tags || [])].join(' ');
 
+    const normalizeWithOffsets = (value) => {
+      const text = String(value || '');
+      const parts = [];
+      const offsets = [];
+
+      for (let start = 0; start < text.length;) {
+        const character = String.fromCodePoint(text.codePointAt(start));
+        const end = start + character.length;
+        const normalizedCharacter = normalize(character);
+        parts.push(normalizedCharacter);
+        for (let index = 0; index < normalizedCharacter.length; index += 1) {
+          offsets.push([start, end]);
+        }
+        start = end;
+      }
+
+      return { text, normalized: parts.join(''), offsets };
+    };
+
     const loadSearchIndex = async () => {
       if (searchIndex) return searchIndex;
       searchStatus.textContent = '正在加载文章索引…';
@@ -89,8 +108,7 @@
     };
 
     const appendHighlightedText = (element, value, terms) => {
-      const text = String(value || '');
-      const normalizedText = normalize(text);
+      const { text, normalized: normalizedText, offsets } = normalizeWithOffsets(value);
       let cursor = 0;
       const matches = [];
 
@@ -104,24 +122,27 @@
 
       matches.sort((a, b) => a[0] - b[0]);
       matches.forEach(([start, end]) => {
-        if (start < cursor) return;
-        element.append(document.createTextNode(text.slice(cursor, start)));
+        const sourceStart = offsets[start]?.[0];
+        const sourceEnd = offsets[end - 1]?.[1];
+        if (sourceStart === undefined || sourceEnd === undefined || sourceStart < cursor) return;
+        element.append(document.createTextNode(text.slice(cursor, sourceStart)));
         const mark = document.createElement('mark');
-        mark.textContent = text.slice(start, end);
+        mark.textContent = text.slice(sourceStart, sourceEnd);
         element.append(mark);
-        cursor = end;
+        cursor = sourceEnd;
       });
       element.append(document.createTextNode(text.slice(cursor)));
     };
 
     const makeSnippet = (post, terms) => {
       const source = String(post.summary || post.content || '').replace(/\s+/g, ' ').trim();
-      const normalizedSource = normalize(source);
+      const { normalized: normalizedSource, offsets } = normalizeWithOffsets(source);
       const hit = terms.reduce((best, term) => {
         const index = normalizedSource.indexOf(term);
         return index !== -1 && (best === -1 || index < best) ? index : best;
       }, -1);
-      const start = Math.max(0, (hit === -1 ? 0 : hit) - 45);
+      const hitStart = hit === -1 ? 0 : offsets[hit][0];
+      const start = Math.max(0, hitStart - 45);
       const snippet = source.slice(start, start + 150);
       return `${start > 0 ? '…' : ''}${snippet}${start + 150 < source.length ? '…' : ''}`;
     };
