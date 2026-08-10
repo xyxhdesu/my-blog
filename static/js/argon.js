@@ -184,7 +184,7 @@
         const meta = document.createElement('div');
         meta.className = 'search-result-meta';
         const tags = (post.tags || []).slice(0, 2).map((tag) => `#${tag}`);
-        meta.textContent = [post.date, ...(post.categories || []).slice(0, 2), ...tags].filter(Boolean).join(' · ');
+        appendHighlightedText(meta, [post.date, ...(post.categories || []).slice(0, 2), ...tags].filter(Boolean).join(' · '), terms);
 
         const excerpt = document.createElement('p');
         appendHighlightedText(excerpt, makeSnippet(post, terms), terms);
