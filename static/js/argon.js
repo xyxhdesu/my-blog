@@ -524,6 +524,34 @@
     musicStop.addEventListener('click', stopMusic);
   }
 
+  document.querySelectorAll('[data-tafei-player]').forEach((player) => {
+    const button = player.querySelector('[data-tafei-toggle]');
+    const icon = player.querySelector('[data-tafei-icon]');
+    const label = player.querySelector('[data-tafei-label]');
+    const audio = player.querySelector('[data-tafei-audio]');
+    if (!button || !icon || !label || !audio) return;
+
+    const syncButton = (playing) => {
+      button.classList.toggle('is-playing', playing);
+      button.setAttribute('aria-pressed', String(playing));
+      button.setAttribute('aria-label', `${playing ? '暂停' : '播放'}关注塔菲谢谢喵`);
+      button.title = `${playing ? '暂停' : '播放'}关注塔菲谢谢喵`;
+      icon.textContent = playing ? 'Ⅱ' : '▶';
+      label.textContent = playing ? '暂停' : '播放';
+    };
+
+    button.addEventListener('click', () => {
+      if (audio.paused) {
+        audio.play().catch(() => syncButton(false));
+      } else {
+        audio.pause();
+      }
+    });
+    audio.addEventListener('play', () => syncButton(true));
+    audio.addEventListener('pause', () => syncButton(false));
+    audio.addEventListener('ended', () => syncButton(false));
+  });
+
   const readingStorageKey = 'blog-reading-list';
   const readingList = document.getElementById('reading-list');
   const saveArticleButton = document.querySelector('[data-reading-save]');

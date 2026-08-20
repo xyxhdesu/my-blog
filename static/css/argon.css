@@ -264,6 +264,12 @@ body.search-open { overflow: hidden; }
 .article-content blockquote { margin: 24px 0; padding: 14px 20px; border-left: 4px solid var(--accent); background: var(--canvas); color: var(--muted); }
 .article-content pre { overflow: auto; padding: 20px; border-radius: 6px; background: #172027; color: #e8edf0; }
 .article-content code { font-size: .88em; }
+.tafei-player { margin: -8px 0 22px; }
+.tafei-player-button { min-height: 32px; padding: 5px 10px; display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); border-radius: 4px; background: var(--canvas); color: var(--accent-strong); font-size: 13px; cursor: pointer; }
+.tafei-player-button:hover, .tafei-player-button:focus-visible { outline: 0; border-color: var(--accent); background: color-mix(in srgb, var(--accent) 10%, var(--canvas)); }
+.tafei-player-button.is-playing { border-color: var(--warm); color: var(--warm); }
+.tafei-player-icon { width: 1em; text-align: center; font-size: 12px; line-height: 1; }
+.tafei-player audio { display: none; }
 .article-end { margin-top: 50px; padding-top: 22px; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid var(--line); color: var(--muted); font-size: 11px; }
 .related-posts { margin-top: 38px; padding-top: 27px; border-top: 1px solid var(--line); }
 .related-posts-heading { margin-bottom: 12px; }
