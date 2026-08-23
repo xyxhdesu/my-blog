@@ -7,10 +7,24 @@
     <button class="nav-toggle" id="nav-toggle" type="button" aria-label="打开导航" aria-expanded="false">&#9776;</button>
     <nav class="nav-links" id="nav-links" aria-label="主导航">
       <a href="{{ .Site.Home.RelPermalink }}">首页</a>
-      <a href="{{ "posts/" | relURL }}">文章</a>
-      <a href="{{ "categories/" | relURL }}">分类</a>
-      <a href="{{ "tags/" | relURL }}">标签</a>
-      <a href="{{ "quotes/" | relURL }}">语录</a>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" data-nav-dropdown-toggle aria-expanded="false">
+          <span>文章</span><span class="nav-dropdown-caret" aria-hidden="true"></span>
+        </button>
+        <div class="nav-dropdown-menu" aria-label="文章导航">
+          <a href="{{ "posts/" | relURL }}">全部文章</a>
+          <a href="{{ "categories/" | relURL }}">分类</a>
+          <a href="{{ "tags/" | relURL }}">标签</a>
+        </div>
+      </div>
+      <div class="nav-dropdown">
+        <button class="nav-dropdown-toggle" type="button" data-nav-dropdown-toggle aria-expanded="false">
+          <span>工具</span><span class="nav-dropdown-caret" aria-hidden="true"></span>
+        </button>
+        <div class="nav-dropdown-menu" aria-label="工具导航">
+          <a href="{{ "pomodoro/" | relURL }}">番茄钟</a>
+        </div>
+      </div>
       <a href="{{ "about/" | relURL }}">关于</a>
       <a class="changelog-link" href="{{ "changelog/" | relURL }}">更新日志</a>
       <a href="https://www.xingyexiaohua.xyz/">返回主站 ↗</a>

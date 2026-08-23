@@ -71,6 +71,41 @@
     menuButton.setAttribute('aria-expanded', String(open));
   });
 
+  const dropdownToggles = [...document.querySelectorAll('[data-nav-dropdown-toggle]')];
+  const closeNavDropdowns = (except) => {
+    dropdownToggles.forEach((toggle) => {
+      const dropdown = toggle.closest('.nav-dropdown');
+      if (!dropdown || dropdown === except) return;
+      dropdown.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  };
+
+  dropdownToggles.forEach((toggle) => {
+    const dropdown = toggle.closest('.nav-dropdown');
+    if (!dropdown) return;
+    toggle.addEventListener('click', (event) => {
+      event.stopPropagation();
+      const open = !dropdown.classList.contains('is-open');
+      closeNavDropdowns(dropdown);
+      dropdown.classList.toggle('is-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!event.target.closest('.nav-dropdown')) closeNavDropdowns();
+  });
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeNavDropdowns();
+  });
+  menu?.addEventListener('click', (event) => {
+    if (!event.target.closest('.nav-dropdown-menu a')) return;
+    closeNavDropdowns();
+    menu.classList.remove('is-open');
+    menuButton?.setAttribute('aria-expanded', 'false');
+  });
+
   if (searchButton && searchDialog && searchInput && searchStatus && searchResults) {
     let searchIndex;
     let previousFocus;
@@ -226,6 +261,7 @@
       document.body.classList.add('search-open');
       menu.classList.remove('is-open');
       menuButton?.setAttribute('aria-expanded', 'false');
+      closeNavDropdowns();
       window.requestAnimationFrame(() => searchInput.focus());
     };
 

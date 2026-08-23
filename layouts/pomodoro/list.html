@@ -1,0 +1,94 @@
+{{ define "main" }}
+  <section class="subhero pomodoro-hero" style="background-image: url('{{ .Site.Params.hero_image | relURL }}')">
+    <div class="hero-shade"></div>
+    <div><p>FOCUS TOOL</p><h1>{{ .Title }}</h1><span>{{ .Description }}</span></div>
+  </section>
+
+  <div class="page-shell compact-shell pomodoro-shell">
+    <section class="content-column pomodoro-column" aria-label="番茄钟">
+      <article class="pomodoro-panel" id="pomodoro-app" data-focus-duration="25" data-short-break-duration="5" data-long-break-duration="15" data-long-break-interval="4">
+        <header class="pomodoro-heading">
+          <div>
+            <span>POMODORO</span>
+            <h2>今日专注</h2>
+          </div>
+          <div class="pomodoro-intro">{{ .Content }}</div>
+        </header>
+
+        <div class="pomodoro-workspace">
+          <section class="pomodoro-timer-card" aria-label="计时器">
+            <div class="pomodoro-mode-tabs" role="tablist" aria-label="番茄钟模式">
+              <button type="button" class="is-active" data-pomodoro-mode="focus">专注</button>
+              <button type="button" data-pomodoro-mode="shortBreak">短休息</button>
+              <button type="button" data-pomodoro-mode="longBreak">长休息</button>
+            </div>
+
+            <div class="pomodoro-dial" data-pomodoro-dial style="--progress: 0">
+              <span data-pomodoro-time>25:00</span>
+              <small data-pomodoro-status aria-live="polite">准备开始</small>
+            </div>
+
+            <label class="pomodoro-task-field">
+              <span>本轮任务</span>
+              <input type="text" maxlength="60" data-pomodoro-task placeholder="例如：写一篇博客 / 背 30 个单词">
+            </label>
+
+            <div class="pomodoro-actions" aria-label="计时器操作">
+              <button type="button" class="pomodoro-primary" data-pomodoro-start>开始</button>
+              <button type="button" data-pomodoro-reset>重置</button>
+              <button type="button" data-pomodoro-skip>跳过</button>
+              <button type="button" data-pomodoro-complete>完成本轮</button>
+            </div>
+          </section>
+
+          <aside class="pomodoro-side-card" aria-label="设置和统计">
+            <section class="pomodoro-settings">
+              <div class="pomodoro-card-heading">
+                <span>SETTINGS</span>
+                <h3>计时设置</h3>
+              </div>
+              <div class="pomodoro-setting-grid">
+                <label>专注<input type="number" min="1" max="180" step="1" data-pomodoro-setting="focus" value="25"><small>分钟</small></label>
+                <label>短休息<input type="number" min="1" max="60" step="1" data-pomodoro-setting="shortBreak" value="5"><small>分钟</small></label>
+                <label>长休息<input type="number" min="1" max="90" step="1" data-pomodoro-setting="longBreak" value="15"><small>分钟</small></label>
+              </div>
+              <label class="pomodoro-sound-toggle">
+                <input type="checkbox" data-pomodoro-sound checked>
+                <span>结束时播放提示音</span>
+              </label>
+            </section>
+
+            <section class="pomodoro-stats">
+              <div class="pomodoro-card-heading">
+                <span>SUMMARY</span>
+                <h3>专注统计</h3>
+              </div>
+              <div class="pomodoro-stat-grid">
+                <div><strong data-pomodoro-stat="todayCount">0</strong><span>今日番茄</span></div>
+                <div><strong data-pomodoro-stat="todayMinutes">0</strong><span>今日分钟</span></div>
+                <div><strong data-pomodoro-stat="weekMinutes">0</strong><span>本周分钟</span></div>
+                <div><strong data-pomodoro-stat="streak">0</strong><span>连续天数</span></div>
+              </div>
+            </section>
+          </aside>
+        </div>
+
+        <section class="pomodoro-history" aria-label="专注记录">
+          <header class="pomodoro-history-heading">
+            <div>
+              <span>HISTORY</span>
+              <h3>专注记录</h3>
+            </div>
+            <div class="pomodoro-history-actions">
+              <button type="button" data-pomodoro-export>导出 CSV</button>
+              <button type="button" data-pomodoro-clear>清空记录</button>
+            </div>
+          </header>
+          <div class="pomodoro-records" data-pomodoro-records></div>
+        </section>
+      </article>
+    </section>
+  </div>
+
+  <script src="{{ "js/pomodoro.js" | relURL }}?v=20260824-2" defer></script>
+{{ end }}
