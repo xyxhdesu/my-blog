@@ -13,7 +13,8 @@
       element.rel = 'stylesheet';
       element.href = url;
     } else {
-      element.type = 'module';
+      // waifu-tips.js is a classic UMD script and exposes initWidget globally.
+      // Loading it as a module keeps that symbol scoped and prevents startup.
       element.src = url;
       element.dataset.live2dWidget = 'true';
     }

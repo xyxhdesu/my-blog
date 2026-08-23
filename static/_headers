@@ -1,5 +1,5 @@
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' https://fastly.jsdelivr.net https://giscus.app https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fastly.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://fastly.jsdelivr.net https://cubism.live2d.com https://giscus.app https://cloudflareinsights.com; frame-src https://giscus.app https://music.163.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
+  Content-Security-Policy: default-src 'self'; script-src 'self' https://fastly.jsdelivr.net https://cubism.live2d.com https://giscus.app https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline' https://fastly.jsdelivr.net; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https://fastly.jsdelivr.net https://cubism.live2d.com https://giscus.app https://cloudflareinsights.com; frame-src https://giscus.app https://music.163.com; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests
   Permissions-Policy: camera=(), microphone=(), geolocation=(), payment=(), usb=()
   Referrer-Policy: strict-origin-when-cross-origin
   X-Content-Type-Options: nosniff
